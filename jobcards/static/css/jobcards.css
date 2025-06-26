@@ -1,0 +1,18 @@
+/* Job Card Status Badges */
+.status-badge {
+    font-size: 0.85rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Hover effects for action buttons */
+.btn-jobcard-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+    .jobcard-table td:nth-child(1):before { content: "ID: "; }
+    .jobcard-table td:nth-child(2):before { content: "Vehicle: "; }
+    /* Add other columns as needed */
+}

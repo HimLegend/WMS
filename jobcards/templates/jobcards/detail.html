@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% block title %}Jobcards{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4>Job Card JC-{{ object.id }}</h4>
+            <span class="badge 
+                {% if object.status == 'completed' %}bg-success
+                {% elif object.status == 'cancelled' %}bg-danger
+                {% elif object.status == 'in_progress' %}bg-warning
+                {% else %}bg-secondary{% endif %}">
+                {{ object.get_status_display }}
+            </span>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>Vehicle Details</h5>
+                    <p><strong>Make/Model:</strong> {{ object.vehicle }}</p>
+                    <p><strong>Owner:</strong> {{ object.vehicle.customer }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Job Details</h5>
+                    <p><strong>Technician:</strong> {{ object.assigned_technician|default:"Not assigned" }}</p>
+                    <p><strong>Estimated Completion:</strong> {{ object.estimated_completion|date:"Y-m-d H:i"|default:"-" }}</p>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <h5>Description</h5>
+                <div class="p-3 bg-light rounded">
+                    {{ object.description }}
+                </div>
+            </div>
+            
+            {% if object.customer_notes %}
+            <div class="mb-3">
+                <h5>Customer Notes</h5>
+                <div class="p-3 bg-light rounded">
+                    {{ object.customer_notes }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

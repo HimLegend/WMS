@@ -1,0 +1,34 @@
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Card Alignment Fixes */
+.stat-card {
+    margin-bottom: 0; /* Remove default bottom margin */
+}
+
+/* Table Alignment */
+.data-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* Content Sections */
+.dashboard-section {
+    margin-bottom: 2rem;
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1.5rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
