@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'customers',
     'inspections',
     'inventory',
-    'quotes',
     'vehicles',
+    'quotations',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

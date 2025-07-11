@@ -1,47 +1,64 @@
 {% extends 'core/base.html' %}
-{% block title %}Jobcards{% endblock %}
+{% block title %}{{ jobcard.vehicle.plate }}{% endblock %}
+{% load static %}
+{% load widget_tweaks %}
+
 {% block content %}
 <div class="container mt-4">
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h4>Job Card JC-{{ object.id }}</h4>
-            <span class="badge 
-                {% if object.status == 'completed' %}bg-success
-                {% elif object.status == 'cancelled' %}bg-danger
-                {% elif object.status == 'in_progress' %}bg-warning
-                {% else %}bg-secondary{% endif %}">
-                {{ object.get_status_display }}
-            </span>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Job Card #{{ jobcard.id }}</h2>
+        {% if quotation_exists %}
+        <button class="btn btn-secondary mb-3" disabled>
+            <i class="fas fa-file-invoice-dollar me-1"></i> Quotation Created
+        </button>
+        <span class="text-muted small d-block mb-3">This jobcard already has a quotation.</span>
+        {% else %}
+        <a href="{% url 'quotation_create' jobcard.id %}" class="btn btn-outline-primary mb-3">
+            <i class="fas fa-file-invoice-dollar me-1"></i> Convert to Quotation
+        </a>
+        {% endif %}
+        <a href="{% url 'jobcard_edit' jobcard.id %}" class="btn btn-warning">Edit</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Customer Details</h5>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Name:</strong> {{ jobcard.customer.name }}</li>
+                <li class="list-group-item"><strong>Phone:</strong> {{ jobcard.customer.phone }}</li>
+                <li class="list-group-item"><strong>TRN:</strong> {{ jobcard.customer.trn }}</li>
+            </ul>
         </div>
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <h5>Vehicle Details</h5>
-                    <p><strong>Make/Model:</strong> {{ object.vehicle }}</p>
-                    <p><strong>Owner:</strong> {{ object.vehicle.customer }}</p>
-                </div>
-                <div class="col-md-6">
-                    <h5>Job Details</h5>
-                    <p><strong>Technician:</strong> {{ object.assigned_technician|default:"Not assigned" }}</p>
-                    <p><strong>Estimated Completion:</strong> {{ object.estimated_completion|date:"Y-m-d H:i"|default:"-" }}</p>
-                </div>
-            </div>
-            
-            <div class="mb-3">
-                <h5>Description</h5>
-                <div class="p-3 bg-light rounded">
-                    {{ object.description }}
-                </div>
-            </div>
-            
-            {% if object.customer_notes %}
-            <div class="mb-3">
-                <h5>Customer Notes</h5>
-                <div class="p-3 bg-light rounded">
-                    {{ object.customer_notes }}
-                </div>
-            </div>
-            {% endif %}
+
+        <div class="col-md-6">
+            <h5>Vehicle Details</h5>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Make:</strong> {{ jobcard.vehicle.make }}</li>
+                <li class="list-group-item"><strong>Model:</strong> {{ jobcard.vehicle.model }}</li>
+                <li class="list-group-item"><strong>Color:</strong> {{ jobcard.vehicle.color }}</li>
+                <li class="list-group-item"><strong>Plate:</strong> {{ jobcard.vehicle.plate }}</li>
+                <li class="list-group-item"><strong>VIN:</strong> {{ jobcard.vehicle.vin }}</li>
+                <li class="list-group-item"><strong>Mileage:</strong> {{ jobcard.vehicle.mileage }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h5>Job Information</h5>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Date:</strong> {{ jobcard.date }}</li>
+                <li class="list-group-item"><strong>Time:</strong> {{ jobcard.time }}</li>
+                <li class="list-group-item"><strong>Status:</strong> {{ jobcard.get_job_status_display }}</li>
+            </ul>
+        </div>
+
+        <div class="col-md-6">
+            <h5>Comments</h5>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Customer Comments:</strong> {{ jobcard.customer_comments }}</li>
+                <li class="list-group-item"><strong>Workshop Comments:</strong> {{ jobcard.workshop_comments }}</li>
+            </ul>
         </div>
     </div>
 </div>

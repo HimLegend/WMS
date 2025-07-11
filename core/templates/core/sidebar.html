@@ -1,0 +1,45 @@
+{% load static %}
+<nav class="col-md-2 sidebar-container d-flex flex-column align-items-center py-4">
+    <a href="{% url 'dashboard' %}" class="mb-3">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" class="sidebar-logo img-fluid">
+    </a>
+    <h5 class="text-danger mb-4 text-center">Workshop Manager</h5>
+    <ul class="nav flex-column w-100 px-2">
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="fas fa-user me-2"></i> Login
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard' %}" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}">
+                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'jobcard_list' %}" class="nav-link {% if 'jobcards' in request.path %}active{% endif %}">
+                <i class="fas fa-file-alt me-2"></i> Job Cards
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'customer_list' %}" class="nav-link {% if 'customers' in request.path %}active{% endif %}">
+                <i class="fas fa-users me-2"></i> Customers
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'vehicle_list' %}" class="nav-link {% if 'vehicles' in request.path %}active{% endif %}">
+                <i class="fas fa-car me-2"></i> Vehicles
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'quotation_list' %}" class="nav-link">
+                <i class="fas fa-sliders me-2" aria-hidden="true"></i> Quotations
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{#}" class="nav-link">
+                <i class="fas fa-usd me-2"></i> Invoices
+            </a>
+        </li>
+        <!-- Add more links later -->
+    </ul>
+</nav>

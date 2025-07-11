@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Create Quotation{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Create Quotation</h2>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">JobCard Info</h5>
+            <p><strong>Customer:</strong> {{ jobcard.customer }}</p>
+            <p><strong>Vehicle:</strong> {{ jobcard.vehicle }}</p>
+            <p><strong>Date:</strong> {{ jobcard.date }}</p>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.non_field_errors }}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form.vat_percentage.label_tag }}
+                    {{ form.vat_percentage|add_class:"form-control" }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.discount_percentage.label_tag }}
+                    {{ form.discount_percentage|add_class:"form-control" }}
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <h5>Items</h5>
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div class="card mb-2 p-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form.description.label_tag }}
+                        {{ form.description|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form.quantity.label_tag }}
+                        {{ form.quantity|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form.unit_price.label_tag }}
+                        {{ form.unit_price|add_class:"form-control" }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary mt-3">Save Quotation</button>
+    </form>
+</div>
+{% endblock %}

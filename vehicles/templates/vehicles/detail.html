@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+{% block title %}Vehicle #{{ vehicle.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="card shadow">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Vehicle Details</h4>
+            <a href="{% url 'vehicle_list' %}" class="btn btn-light btn-sm">Back to List</a>
+        </div>
+        <div class="card-body">
+            <h5 class="mb-3">{{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.year }})</h5>
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item"><strong>Color:</strong> {{ vehicle.color }}</li>
+                <li class="list-group-item"><strong>Plate Number:</strong> {{ vehicle.plate }}</li>
+                <li class="list-group-item"><strong>VIN:</strong> {{ vehicle.vin }}</li>
+                <li class="list-group-item"><strong>Mileage:</strong> {{ vehicle.mileage }}</li>
+                <li class="list-group-item"><strong>Owner:</strong>
+                    <a href="{% url 'customer_detail' vehicle.customer.id %}">
+                        {{ vehicle.customer.name }}
+                    </a>
+                </li>
+            </ul>
+
+            <h6 class="mt-4">Job Cards</h6>
+            {% if vehicle.jobcards.all %}
+            <ul class="list-group">
+                {% for jobcard in vehicle.jobcards.all %}
+                <li class="list-group-item">
+                    <a href="{% url 'jobcard_detail' jobcard.id %}">
+                        JobCard #{{ jobcard.id }} — {{ jobcard.created_at|date:"Y-m-d" }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No job cards found for this vehicle.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

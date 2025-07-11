@@ -1,0 +1,4 @@
+need customer_create.html
+need vehicle_create.html
+finish all views for vehicles
+contine linking jobcards with customer & vehicles

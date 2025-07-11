@@ -1,134 +1,123 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block title %}Dashboard{% endblock %}
+
 {% block content %}
-<div class="dashboard-container">
-    <!-- Stats Cards Row - Now with 4 cards -->
+<div class="container dashboard-container">
+
+    <!-- Summary Cards -->
     <div class="row stats-row">
-        <!-- Card 1 -->
-        <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
-            <div class="stat-card card bg-primary text-white">
-                <!-- Card content -->
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">Active Jobs</h5>
-                            <h2 class="mb-0">12</h2>
-                        </div>
-                        <i class="fas fa-tasks fa-3x"></i>
-                    </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-primary stat-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Customers</h5>
+                    <p class="display-6">{{ customers_count }}</p>
+                    <a href="{% url 'customer_list' %}" class="btn btn-light btn-sm">View All</a>
                 </div>
             </div>
         </div>
-
-        <!-- Card 2 -->
-        <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
-            <div class="stat-card card bg-warning text-white">
-                <!-- Card content -->
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">Pending Inspections</h5>
-                            <h2 class="mb-0">5</h2>
-                        </div>
-                        <i class="fas fa-clipboard-list fa-3x"></i>
-                    </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success stat-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Vehicles</h5>
+                    <p class="display-6">{{ vehicles_count }}</p>
+                    <a href="{% url 'vehicle_list' %}" class="btn btn-light btn-sm">View All</a>
                 </div>
             </div>
         </div>
-
-        <!-- Card 3 -->
-        <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
-            <div class="stat-card card bg-danger text-white">
-                <!-- Card content -->
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">Low Stock Items</h5>
-                            <h2 class="mb-0">3</h2>
-                        </div>
-                        <i class="fas fa-box-open fa-3x"></i>
-                    </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning stat-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Job Cards</h5>
+                    <p class="display-6">{{ jobcards_count }}</p>
+                    <a href="{% url 'jobcard_list' %}" class="btn btn-light btn-sm">View All</a>
                 </div>
             </div>
         </div>
-
-        <!-- Card 4 -->
-        <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
-            <div class="stat-card card bg-success text-white">
-                <!-- Card content -->
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">Ready Jobs</h5>
-                            <h2 class="mb-0">3</h2>
-                        </div>
-                        <i class="fas fa-box-open fa-3x"></i>
-                    </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info stat-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Quotations</h5>
+                    <p class="display-6">{{ quotations_count }}</p>
+                    <a href="{% url 'quotation_list' %}" class="btn btn-light btn-sm">View All</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Rest of your dashboard content -->
-
-
-    <!-- Second Row - Other Content -->
+    <!-- Content Row -->
     <div class="row content-row">
         <!-- Recent Job Cards -->
         <div class="col-md-6">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5>Recent Job Cards</h5>
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Recent Job Cards</h5>
+                    <a href="{% url 'jobcard_list' %}" class="btn btn-sm btn-light">All</a>
                 </div>
-                <div class="card-body">
-                    <table class="table table-hover">
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Date</th>
+                                <th>Customer</th>
                                 <th>Vehicle</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for job in recent_jobcards %}
                             <tr>
-                                <td>JC-1024</td>
-                                <td>Toyota Corolla</td>
-                                <td><span class="badge bg-warning">In Progress</span></td>
+                                <td>#{{ job.id }}</td>
+                                <td>{{ job.date }}</td>
+                                <td>{{ job.customer.name }}</td>
+                                <td>{{ job.vehicle.make }} {{ job.vehicle.model }}</td>
+                                <td>{{ job.job_status }}</td>
                             </tr>
-                            <tr>
-                                <td>JC-1023</td>
-                                <td>Ford Ranger</td>
-                                <td><span class="badge bg-primary">Pending</span></td>
-                            </tr>
+                            {% empty %}
+                            <tr><td colspan="5" class="text-center">No recent job cards.</td></tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Quick Actions -->
+        <!-- Recent Quotations -->
         <div class="col-md-6">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5>Quick Actions</h5>
+            <div class="card shadow">
+                <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Recent Quotations</h5>
+                    <a href="{% url 'quotation_list' %}" class="btn btn-sm btn-light">All</a>
                 </div>
-                <div class="card-body">
-                    <div class="d-grid gap-3">
-                        <button class="btn btn-primary btn-lg py-3">
-                            <i class="fas fa-plus-circle me-2"></i> New Job Card
-                        </button>
-                        <button class="btn btn-success btn-lg py-3">
-                            <i class="fas fa-file-invoice me-2"></i> Generate Invoice
-                        </button>
-                        <button class="btn btn-info btn-lg py-3">
-                            <i class="fas fa-search me-2"></i> Check Inventory
-                        </button>
-                    </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Vehicle</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quotation in recent_quotations %}
+                            <tr>
+                                <td>{{ quotation.quotation_number }}</td>
+                                <td>{{ quotation.created_at|date:"Y-m-d" }}</td>
+                                <td>{{ quotation.jobcard.customer.name }}</td>
+                                <td>{{ quotation.jobcard.vehicle.make }} {{ quotation.jobcard.vehicle.model }}</td>
+                                <td>AED {{ quotation.grand_total|floatformat:2 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="5" class="text-center">No recent quotations.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock %}

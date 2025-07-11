@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Quotation {{ quotation.quotation_number }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Quotation {{ quotation.quotation_number }}</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <p><strong>Customer:</strong> {{ quotation.jobcard.customer }}</p>
+            <p><strong>Vehicle:</strong> {{ quotation.jobcard.vehicle }}</p>
+            <p><strong>Date:</strong> {{ quotation.date_created }}</p>
+        </div>
+        <div class="col-md-6 text-end">
+            <a href="{% url 'quotation_edit' quotation.pk %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'quotation_pdf' quotation.pk %}" class="btn btn-sm btn-outline-primary">Download PDF</a>
+        </div>
+    </div>
+
+    <hr>
+    <h5>Items</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in quotation.items.all %}
+            <tr>
+                <td>{{ item.description }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.unit_price }}</td>
+                <td>{{ item.line_total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+    <div class="text-end">
+        <p><strong>Subtotal:</strong> {{ quotation.subtotal|floatformat:2 }}</p>
+        <p><strong>Discount:</strong> -{{ quotation.discount_amount|floatformat:2 }}</p>
+        <p><strong>VAT ({{ quotation.vat_percentage }}%):</strong> {{ quotation.vat_amount|floatformat:2 }}</p>
+        <h5><strong>Total:</strong> {{ quotation.grand_total|floatformat:2 }}</h5>
+    </div>
+</div>
+{% endblock %}

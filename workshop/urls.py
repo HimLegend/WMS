@@ -26,9 +26,10 @@ urlpatterns = [
     path('customers/', include('customers.urls')),
     path('vehicles/', include('vehicles.urls')),
     path('jobcards/', include('jobcards.urls')),
+    path('quotations/', include('quotations.urls')),
     # path('accounts/', include('django.contrib.auth.urls')),
     # path('jobcards/', include('jobcards.urls')),
-    path('', include('core.urls')),
+    path('dashboard/', include('core.urls')),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+{% block title %}Edit Vehicle{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="card shadow">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Edit Vehicle</h4>
+            <a href="{% url 'vehicle_detail' vehicle.id %}" class="btn btn-secondary btn-sm">Back to Details</a>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="id_make" class="form-label">Make</label>
+                        {{ form.make|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="id_model" class="form-label">Model</label>
+                        {{ form.model|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="id_year" class="form-label">Year</label>
+                        {{ form.year|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="id_color" class="form-label">Color</label>
+                        {{ form.color|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="id_plate" class="form-label">Plate Number</label>
+                        {{ form.plate|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="id_vin" class="form-label">VIN Number</label>
+                        {{ form.vin|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-warning">Update Vehicle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

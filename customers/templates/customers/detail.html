@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+{% block title %}Customer #{{ customer.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="card shadow">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Customer Details</h4>
+            <a href="{% url 'customer_list' %}" class="btn btn-light btn-sm">Back to List</a>
+        </div>
+        <div class="card-body">
+            <h5 class="mb-3">{{ customer.name }}</h5>
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item"><strong>Phone:</strong> {{ customer.phone }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ customer.email }}</li>
+                <li class="list-group-item"><strong>Company:</strong> {{ customer.company }}</li>
+                <li class="list-group-item"><strong>TRN:</strong> {{ customer.trn }}</li>
+            </ul>
+
+            <h6 class="mt-4">Associated Vehicles</h6>
+            {% if customer.vehicles.all %}
+            <ul class="list-group">
+                {% for vehicle in customer.vehicles.all %}
+                <li class="list-group-item">
+                    <a href="{% url 'vehicle_detail' vehicle.id %}">
+                        {{ vehicle.make }} {{ vehicle.model }} - {{ vehicle.plate }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No vehicles registered for this customer.</p>
+            {% endif %}
+
+            <h6 class="mt-4">Job Cards</h6>
+            {% if customer.jobcards.all %}
+            <ul class="list-group">
+                {% for jobcard in customer.jobcards.all %}
+                <li class="list-group-item">
+                    <a href="{% url 'jobcard_detail' jobcard.id %}">
+                        JobCard #{{ jobcard.id }} — {{ jobcard.created_at|date:"Y-m-d" }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No job cards found for this customer.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

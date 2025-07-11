@@ -4,36 +4,61 @@ body {
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+h1, h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+}
+
+h3, h4, h5, h6, .subheading {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; /* Bold subheadings */
+}
+
+.container-fluid {
+    display: flex;
+    min-height: 100vh;
+}
+
+.row {
+    width: 100%;
+    align-items: flex-start;
 }
 
 /* ===== SIDEBAR ===== */
 .sidebar-container {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.sidebar {
     background-color: #2c3e50;
-    color: white;
-    height: 100vh;
+    color: rgb(255, 255, 255);
+    min-height: 100vh;
+    padding: 1rem 0.5rem;
     position: sticky;
     top: 0;
-    padding: 1.5rem;
 }
 
-.sidebar .nav-link {
+.sidebar-logo {
+    max-height: 60px;
+    margin: 0 auto;
+    display: block;
+}
+
+.nav-link {
     color: #adb5bd;
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 1rem;
     border-radius: 4px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
+    transition: all 0.2s ease;
 }
 
-.sidebar .nav-link:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
+.nav-link, .btn, .card-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
 }
 
-.sidebar .nav-link.active {
+.nav-link:hover,
+.nav-link.active {
     background-color: #3498db;
     color: white;
 }
@@ -45,33 +70,22 @@ body {
     min-height: 100vh;
 }
 
-/* ===== RESPONSIVE FIXES ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-    .sidebar {
-        height: auto;
+    .sidebar-container {
         position: relative;
+        min-height: auto;
     }
+
     .main-content {
-        padding: 1.5rem;
+        padding: 1rem;
     }
-}
-/* Fix for dashboard at bottom */
-.container-fluid {
-    display: flex;
-    min-height: 100vh;
-}
 
-.row {
-    width: 100%;
-    align-items: flex-start; /* Aligns content to top */
-}
+    .sidebar-logo {
+        max-height: 40px;
+    }
 
-.main-content {
-    padding-top: 1rem; /* Reduce top padding */
-    margin-top: 0; /* Remove any top margin */
-}
-
-/* Ensure sidebar and content columns are top-aligned */
-.col-md-2, .col-md-10 {
-    align-self: flex-start;
+    .nav-link {
+        font-size: 0.9rem;
+    }
 }

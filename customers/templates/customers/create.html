@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+{% block title %}Add New Customer{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Add New Customer</h4>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="id_name" class="form-label">Name</label>
+            {{ form.name|add_class:"form-control" }}
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="id_phone" class="form-label">Phone</label>
+            {{ form.phone|add_class:"form-control" }}
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="id_email" class="form-label">Email</label>
+            {{ form.email|add_class:"form-control" }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="id_company" class="form-label">Company</label>
+            {{ form.company|add_class:"form-control" }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="id_trn" class="form-label">TRN</label>
+            {{ form.trn|add_class:"form-control" }}
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-success">Create Customer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

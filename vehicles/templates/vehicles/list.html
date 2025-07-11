@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+{% block title %}Vehicle List{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Vehicle List</h4>
+        <a href="{% url 'vehicle_create' %}" class="btn btn-success">+ New Vehicle</a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Make</th>
+                        <th>Model</th>
+                        <th>Year</th>
+                        <th>Color</th>
+                        <th>Plate</th>
+                        <th>VIN</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehicle in vehicles %}
+                    <tr>
+                        <td>{{ vehicle.id }}</td>
+                        <td>{{ vehicle.make }}</td>
+                        <td>{{ vehicle.model }}</td>
+                        <td>{{ vehicle.year }}</td>
+                        <td>{{ vehicle.color }}</td>
+                        <td>{{ vehicle.plate }}</td>
+                        <td>{{ vehicle.vin }}</td>
+                        <td>
+                            <a href="{% url 'vehicle_detail' vehicle.id %}"
+                                class="btn btn-sm btn-outline-primary">View</a>
+                            <a href="{% url 'vehicle_edit' vehicle.id %}"
+                                class="btn btn-sm btn-outline-warning">Edit</a>
+                            <a href="{% url 'vehicle_delete' vehicle.id %}"
+                                class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">No vehicles found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
