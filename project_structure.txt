@@ -1,0 +1,419 @@
+Folder PATH listing
+Volume serial number is 08CC-3414
+C:.
+|   .gitignore
+|   db.sqlite3
+|   manage.py
+|   project_structure.txt
+|   README.md
+|   TODO.txt
+|   
++---core
+|   |   admin.py
+|   |   apps.py
+|   |   models.py
+|   |   tests.py
+|   |   urls.py
+|   |   views.py
+|   |   __init__.py
+|   |   
+|   +---migrations
+|   |   \---__pycache__
+|   +---static
+|   |   +---css
+|   |   |       base.css
+|   |   |       
+|   |   \---images
+|   |           logo.png
+|   |           
+|   +---templates
+|   |   +---core
+|   |   |       base.html
+|   |   |       dashboard.html
+|   |   |       sidebar.html
+|   |   |       
+|   |   \---registration
+|   \---__pycache__
+|           admin.cpython-313.pyc
+|           apps.cpython-313.pyc
+|           models.cpython-313.pyc
+|           urls.cpython-313.pyc
+|           views.cpython-313.pyc
+|           __init__.cpython-313.pyc
+|           
++---customers
+|   |   admin.py
+|   |   forms.py
+|   |   models.py
+|   |   urls.py
+|   |   views.py
+|   |   
+|   +---migrations
+|   |   |   0001_initial.py
+|   |   |   0002_remove_customer_created_at_customer_company_name_and_more.py
+|   |   |   0003_alter_customer_trn.py
+|   |   |   0004_remove_customer_company_name_and_more.py
+|   |   |   0005_rename_trn_customer_trn_customer_company_name_and_more.py
+|   |   |   0006_rename_company_name_customer_company.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           0001_initial.cpython-313.pyc
+|   |           0002_remove_customer_created_at_customer_company_name_and_more.cpython-313.pyc
+|   |           0003_alter_customer_trn.cpython-313.pyc
+|   |           0004_remove_customer_company_name_and_more.cpython-313.pyc
+|   |           0005_rename_trn_customer_trn_customer_company_name_and_more.cpython-313.pyc
+|   |           0006_rename_company_name_customer_company.cpython-313.pyc
+|   |           __init__.cpython-313.pyc
+|   |           
+|   +---templates
+|   |   \---customers
+|   |           create.html
+|   |           customer_confirm_delete.html
+|   |           customer_form.html
+|   |           detail.html
+|   |           edit.html
+|   |           list.html
+|   |           
+|   \---__pycache__
+|           admin.cpython-313.pyc
+|           forms.cpython-313.pyc
+|           models.cpython-313.pyc
+|           urls.cpython-313.pyc
+|           views.cpython-313.pyc
+|           
++---inspections
+|   |   models.py
+|   |   urls.py
+|   |   
+|   \---__pycache__
+|           models.cpython-313.pyc
+|           
++---inventory
+|   |   models.py
+|   |   urls.py
+|   |   
+|   \---__pycache__
+|           models.cpython-313.pyc
+|           
++---jobcards
+|   |   admin.py
+|   |   forms.py
+|   |   models.py
+|   |   urls.py
+|   |   views.py
+|   |   
+|   +---migrations
+|   |   |   0001_initial.py
+|   |   |   0002_rename_description_jobcard_job_details_and_more.py
+|   |   |   0003_remove_jobcard_company_name_and_more.py
+|   |   |   0004_remove_jobcard_created_time_and_more.py
+|   |   |   0005_jobcard_date_jobcard_job_status_jobcard_time.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           0001_initial.cpython-313.pyc
+|   |           0002_rename_description_jobcard_job_details_and_more.cpython-313.pyc
+|   |           0003_remove_jobcard_company_name_and_more.cpython-313.pyc
+|   |           0004_remove_jobcard_created_time_and_more.cpython-313.pyc
+|   |           0005_jobcard_date_jobcard_job_status_jobcard_time.cpython-313.pyc
+|   |           __init__.cpython-313.pyc
+|   |           
+|   +---static
+|   |   +---css
+|   |   |       jobcards.css
+|   |   |       
+|   |   \---js
+|   |           jobcards.js
+|   |           
+|   +---templates
+|   |   \---jobcards
+|   |           confirm_delete.html
+|   |           create.html
+|   |           detail.html
+|   |           edit.html
+|   |           jobcard_form.html
+|   |           list.html
+|   |           
+|   \---__pycache__
+|           admin.cpython-313.pyc
+|           forms.cpython-313.pyc
+|           models.cpython-313.pyc
+|           urls.cpython-313.pyc
+|           views.cpython-313.pyc
+|           
++---quotations
+|   |   admin.py
+|   |   forms.py
+|   |   models.py
+|   |   urls.py
+|   |   views.py
+|   |   
+|   +---migrations
+|   |   |   0001_initial.py
+|   |   |   0002_alter_quotation_options_alter_quotationitem_options_and_more.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           0001_initial.cpython-313.pyc
+|   |           0002_alter_quotation_options_alter_quotationitem_options_and_more.cpython-313.pyc
+|   |           __init__.cpython-313.pyc
+|   |           
+|   +---templates
+|   |   \---quotations
+|   |           create.html
+|   |           detail.html
+|   |           list.html
+|   |           
+|   \---__pycache__
+|           admin.cpython-313.pyc
+|           forms.cpython-313.pyc
+|           models.cpython-313.pyc
+|           urls.cpython-313.pyc
+|           views.cpython-313.pyc
+|           
++---static
+|   +---fonts
+|   |       Oswald-Bold.ttf
+|   |       Oswald-ExtraLight.ttf
+|   |       Oswald-Light.ttf
+|   |       Oswald-Medium.ttf
+|   |       Oswald-Regular.ttf
+|   |       Oswald-SemiBold.ttf
+|   |       Oswald-VariableFont_wght.ttf
+|   |       Poppins-Black.ttf
+|   |       Poppins-BlackItalic.ttf
+|   |       Poppins-Bold.ttf
+|   |       Poppins-BoldItalic.ttf
+|   |       Poppins-ExtraBold.ttf
+|   |       Poppins-ExtraBoldItalic.ttf
+|   |       Poppins-ExtraLight.ttf
+|   |       Poppins-ExtraLightItalic.ttf
+|   |       Poppins-Italic.ttf
+|   |       Poppins-Light.ttf
+|   |       Poppins-LightItalic.ttf
+|   |       Poppins-Medium.ttf
+|   |       Poppins-MediumItalic.ttf
+|   |       Poppins-Regular.ttf
+|   |       Poppins-SemiBold.ttf
+|   |       Poppins-SemiBoldItalic.ttf
+|   |       Poppins-Thin.ttf
+|   |       Poppins-ThinItalic.ttf
+|   |       
+|   \---images
++---staticfiles
+|   +---admin
+|   |   +---css
+|   |   |   |   autocomplete.css
+|   |   |   |   base.css
+|   |   |   |   changelists.css
+|   |   |   |   dark_mode.css
+|   |   |   |   dashboard.css
+|   |   |   |   forms.css
+|   |   |   |   login.css
+|   |   |   |   nav_sidebar.css
+|   |   |   |   responsive.css
+|   |   |   |   responsive_rtl.css
+|   |   |   |   rtl.css
+|   |   |   |   unusable_password_field.css
+|   |   |   |   widgets.css
+|   |   |   |   
+|   |   |   \---vendor
+|   |   |       \---select2
+|   |   |               LICENSE-SELECT2.md
+|   |   |               select2.css
+|   |   |               select2.min.css
+|   |   |               
+|   |   +---img
+|   |   |   |   calendar-icons.svg
+|   |   |   |   icon-addlink.svg
+|   |   |   |   icon-alert.svg
+|   |   |   |   icon-calendar.svg
+|   |   |   |   icon-changelink.svg
+|   |   |   |   icon-clock.svg
+|   |   |   |   icon-deletelink.svg
+|   |   |   |   icon-hidelink.svg
+|   |   |   |   icon-no.svg
+|   |   |   |   icon-unknown-alt.svg
+|   |   |   |   icon-unknown.svg
+|   |   |   |   icon-viewlink.svg
+|   |   |   |   icon-yes.svg
+|   |   |   |   inline-delete.svg
+|   |   |   |   LICENSE
+|   |   |   |   README.txt
+|   |   |   |   search.svg
+|   |   |   |   selector-icons.svg
+|   |   |   |   sorting-icons.svg
+|   |   |   |   tooltag-add.svg
+|   |   |   |   tooltag-arrowright.svg
+|   |   |   |   
+|   |   |   \---gis
+|   |   |           move_vertex_off.svg
+|   |   |           move_vertex_on.svg
+|   |   |           
+|   |   \---js
+|   |       |   actions.js
+|   |       |   autocomplete.js
+|   |       |   calendar.js
+|   |       |   cancel.js
+|   |       |   change_form.js
+|   |       |   core.js
+|   |       |   filters.js
+|   |       |   inlines.js
+|   |       |   jquery.init.js
+|   |       |   nav_sidebar.js
+|   |       |   popup_response.js
+|   |       |   prepopulate.js
+|   |       |   prepopulate_init.js
+|   |       |   SelectBox.js
+|   |       |   SelectFilter2.js
+|   |       |   theme.js
+|   |       |   unusable_password_field.js
+|   |       |   urlify.js
+|   |       |   
+|   |       +---admin
+|   |       |       DateTimeShortcuts.js
+|   |       |       RelatedObjectLookups.js
+|   |       |       
+|   |       \---vendor
+|   |           +---jquery
+|   |           |       jquery.js
+|   |           |       jquery.min.js
+|   |           |       LICENSE.txt
+|   |           |       
+|   |           +---select2
+|   |           |   |   LICENSE.md
+|   |           |   |   select2.full.js
+|   |           |   |   select2.full.min.js
+|   |           |   |   
+|   |           |   \---i18n
+|   |           |           af.js
+|   |           |           ar.js
+|   |           |           az.js
+|   |           |           bg.js
+|   |           |           bn.js
+|   |           |           bs.js
+|   |           |           ca.js
+|   |           |           cs.js
+|   |           |           da.js
+|   |           |           de.js
+|   |           |           dsb.js
+|   |           |           el.js
+|   |           |           en.js
+|   |           |           es.js
+|   |           |           et.js
+|   |           |           eu.js
+|   |           |           fa.js
+|   |           |           fi.js
+|   |           |           fr.js
+|   |           |           gl.js
+|   |           |           he.js
+|   |           |           hi.js
+|   |           |           hr.js
+|   |           |           hsb.js
+|   |           |           hu.js
+|   |           |           hy.js
+|   |           |           id.js
+|   |           |           is.js
+|   |           |           it.js
+|   |           |           ja.js
+|   |           |           ka.js
+|   |           |           km.js
+|   |           |           ko.js
+|   |           |           lt.js
+|   |           |           lv.js
+|   |           |           mk.js
+|   |           |           ms.js
+|   |           |           nb.js
+|   |           |           ne.js
+|   |           |           nl.js
+|   |           |           pl.js
+|   |           |           ps.js
+|   |           |           pt-BR.js
+|   |           |           pt.js
+|   |           |           ro.js
+|   |           |           ru.js
+|   |           |           sk.js
+|   |           |           sl.js
+|   |           |           sq.js
+|   |           |           sr-Cyrl.js
+|   |           |           sr.js
+|   |           |           sv.js
+|   |           |           th.js
+|   |           |           tk.js
+|   |           |           tr.js
+|   |           |           uk.js
+|   |           |           vi.js
+|   |           |           zh-CN.js
+|   |           |           zh-TW.js
+|   |           |           
+|   |           \---xregexp
+|   |                   LICENSE.txt
+|   |                   xregexp.js
+|   |                   xregexp.min.js
+|   |                   
+|   +---css
+|   |       base.css
+|   |       dashboard.css
+|   |       jobcards.css
+|   |       
+|   +---images
+|   |       logo.png
+|   |       
+|   \---js
+|           jobcards.js
+|           
++---vehicles
+|   |   admin.py
+|   |   forms.py
+|   |   models.py
+|   |   urls.py
+|   |   views.py
+|   |   
+|   +---migrations
+|   |   |   0001_initial.py
+|   |   |   0002_alter_vehicle_customer.py
+|   |   |   0003_vehicle_color_alter_vehicle_make_alter_vehicle_model.py
+|   |   |   0004_remove_vehicle_license_plate_remove_vehicle_vin_and_more.py
+|   |   |   0005_rename_plate_number_vehicle_plate_and_more.py
+|   |   |   0006_alter_vehicle_plate.py
+|   |   |   0007_vehicle_mileage_alter_vehicle_plate_and_more.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           0001_initial.cpython-313.pyc
+|   |           0002_alter_vehicle_customer.cpython-313.pyc
+|   |           0003_vehicle_color_alter_vehicle_make_alter_vehicle_model.cpython-313.pyc
+|   |           0004_remove_vehicle_license_plate_remove_vehicle_vin_and_more.cpython-313.pyc
+|   |           0005_rename_plate_number_vehicle_plate_and_more.cpython-313.pyc
+|   |           0006_alter_vehicle_plate.cpython-313.pyc
+|   |           0007_vehicle_mileage_alter_vehicle_plate_and_more.cpython-313.pyc
+|   |           __init__.cpython-313.pyc
+|   |           
+|   +---templates
+|   |   \---vehicles
+|   |           create.html
+|   |           detail.html
+|   |           edit.html
+|   |           list.html
+|   |           
+|   \---__pycache__
+|           admin.cpython-313.pyc
+|           forms.cpython-313.pyc
+|           models.cpython-313.pyc
+|           urls.cpython-313.pyc
+|           views.cpython-313.pyc
+|           
+\---workshop
+    |   asgi.py
+    |   settings.py
+    |   urls.py
+    |   wsgi.py
+    |   __init__.py
+    |   
+    \---__pycache__
+            settings.cpython-313.pyc
+            urls.cpython-313.pyc
+            wsgi.cpython-313.pyc
+            __init__.cpython-313.pyc
+            

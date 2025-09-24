@@ -1,0 +1,148 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}New Inspection Report{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4">Create Inspection Report</h2>
+    <div class="mb-4">
+        <label class="form-label fw-bold">{{ jobcard }}</label>
+        <input type="hidden" name="job_card_id" value="{{ jobcard.id }}">
+    </div>
+    <div class="card-body">
+        <div class="col-md-6">
+            <h6 class="text-success"><i class="fas fa-car me-2"></i>Vehicle</h6>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><strong>Make:</strong> {{ jobcard.vehicle.make }}</li>
+                        <li><strong>Model:</strong> {{ jobcard.vehicle.model }}</li>
+                        <li><strong>Year:</strong> {{ jobcard.vehicle.year }}</li>
+                        <li><strong>Color:</strong> {{ jobcard.vehicle.color }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><strong>Plate:</strong> {{ jobcard.vehicle.plate }}</li>
+                        <li><strong>VIN:</strong> {{ jobcard.vehicle.vin }}</li>
+                        <li><strong>Mileage:</strong> {{ jobcard.vehicle.mileage }} km</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form method="post" id="inspection-form">
+        {% csrf_token %}
+
+
+        <div id="findings-container"></div>
+
+        <button type="button" class="btn btn-outline-primary mt-3" id="add-finding">+ Add Finding</button>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success">Save Report</button>
+        </div>
+    </form>
+</div>
+
+<!-- Template for a finding -->
+<template id="finding-template">
+    <div class="card mt-4 finding-item">
+        <div class="card-body">
+            <button type="button" class="btn-close float-end remove-finding" aria-label="Close"></button>
+            <h5 class="card-title">Finding</h5>
+            <div class="mb-2">
+                <label>Description:</label>
+                <textarea name="findings[][description]" class="form-control" required></textarea>
+            </div>
+            <div class="mb-2">
+                <label>Severity:</label>
+                <select name="findings[][severity]" class="form-select">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                    <option value="critical">Critical</option>
+                </select>
+            </div>
+            <div class="mb-2">
+                <label>Time Required (hrs):</label>
+                <input type="number" step="0.1" name="findings[][time_required]" class="form-control" value="1.0">
+            </div>
+            <div class="mb-2">
+                <label>Remarks:</label>
+                <textarea name="findings[][remarks]" class="form-control"></textarea>
+            </div>
+
+            <div class="nested-section mt-3">
+                <h6>Parts</h6>
+                <div class="parts-container"></div>
+                <button type="button" class="btn btn-sm btn-outline-secondary add-part">+ Add Part</button>
+            </div>
+
+            <div class="nested-section mt-3">
+                <h6>Consumables</h6>
+                <div class="consumables-container"></div>
+                <button type="button" class="btn btn-sm btn-outline-secondary add-consumable">+ Add Consumable</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<!-- Template for a part -->
+<template id="part-template">
+    <div class="row mb-2 part-item">
+        <div class="col">
+            <input type="text" class="form-control" name="parts[][part_number]" placeholder="Part number">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" name="parts[][description]" placeholder="Part description" required>
+        </div>
+        <div class="col-2">
+            <input type="number" name="parts[][quantity]" class="form-control" value="1" min="1">
+        </div>
+        <div class="col">
+            <select name="parts[][status]" class="form-select">
+                <option value="required">Required</option>
+                <option value="ordered">Ordered</option>
+                <option value="in_stock">In Stock</option>
+                <option value="installed">Installed</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-danger remove-part">✕</button>
+        </div>
+    </div>
+</template>
+
+<!-- Template for a consumable -->
+<template id="consumable-template">
+    <div class="row mb-2 consumable-item">
+        <div class="col">
+            <input type="text" class="form-control" name="consumables[][name]" placeholder="Consumable name" required>
+        </div>
+        <div class="col-2">
+            <input type="number" step="0.1" class="form-control" name="consumables[][quantity]" value="1">
+        </div>
+        <div class="col-2">
+            <select name="consumables[][unit]" class="form-select">
+                <option value="pcs">pcs</option>
+                <option value="l">L</option>
+                <option value="ml">ml</option>
+                <option value="kg">kg</option>
+                <option value="g">g</option>
+                <option value="m">m</option>
+                <option value="cm">cm</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-danger remove-consumable">✕</button>
+        </div>
+    </div>
+</template>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/inspection_create.js' %}"></script>
+{% endblock %}

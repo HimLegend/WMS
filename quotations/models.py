@@ -1,8 +1,12 @@
+# quotations/models.py
+
 import datetime
 from django.db import models
 from decimal import Decimal
 from jobcards.models import JobCard
 from django.utils import timezone
+from decimal import Decimal, InvalidOperation
+
 
 class Quotation(models.Model):
     jobcard = models.ForeignKey(JobCard, on_delete=models.CASCADE, related_name="quotations")
@@ -15,19 +19,27 @@ class Quotation(models.Model):
 
     @property
     def subtotal(self):
-        return sum(item.total for item in self.items.all())
+        total = Decimal('0')
+        for item in self.items.all():
+            if hasattr(item, 'total'):
+                total += Decimal(str(item.total))
+        return total.quantize(Decimal('0.01'))
 
     @property
     def discount_amount(self):
-        return self.subtotal * (self.discount_percentage / Decimal('100'))
+        discount = (self.subtotal * Decimal(str(self.discount_percentage))) / Decimal('100')
+        return discount.quantize(Decimal('0.01'))
 
     @property
     def vat_amount(self):
-        return (self.subtotal - self.discount_amount) * (self.vat_percentage / Decimal('100'))
+        subtotal_after_discount = self.subtotal - self.discount_amount
+        vat = (subtotal_after_discount * Decimal(str(self.vat_percentage))) / Decimal('100')
+        return vat.quantize(Decimal('0.01'))
 
     @property
     def grand_total(self):
-        return self.subtotal - self.discount_amount + self.vat_amount
+        total = self.subtotal - self.discount_amount + self.vat_amount
+        return total.quantize(Decimal('0.01'))
 
     def save(self, *args, **kwargs):
         if not self.quotation_number:
@@ -46,14 +58,25 @@ class Quotation(models.Model):
 
 
 class QuotationItem(models.Model):
+    ITEM_TYPE_CHOICES = [
+        ('part', 'Part'),
+        ('service', 'Service'),
+    ]
+    
     quotation = models.ForeignKey('Quotation', on_delete=models.CASCADE, related_name='items')
+    item_type = models.CharField(max_length=10, choices=ITEM_TYPE_CHOICES, default='part')
     description = models.CharField(max_length=255)
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=1)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     @property
     def line_total(self):
-        return self.quantity * self.unit_price
+        try:
+            qty = Decimal(str(self.quantity or 0))
+            price = self.unit_price or Decimal('0.00')
+            return (qty * price).quantize(Decimal('0.01'))
+        except (InvalidOperation, TypeError):
+            return Decimal('0.00')
 
     @property
     def total(self):

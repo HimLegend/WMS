@@ -6,6 +6,7 @@ body {
     padding: 0;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
+    height: 100vh;
 }
 
 h1, h2 {
@@ -20,7 +21,7 @@ h3, h4, h5, h6, .subheading {
 
 .container-fluid {
     display: flex;
-    min-height: 100vh;
+    /* min-height: 100vh; */
 }
 
 .row {
@@ -42,6 +43,8 @@ h3, h4, h5, h6, .subheading {
     max-height: 60px;
     margin: 0 auto;
     display: block;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
 .nav-link {
@@ -57,10 +60,24 @@ h3, h4, h5, h6, .subheading {
     font-weight: 600;
 }
 
-.nav-link:hover,
-.nav-link.active {
+.nav-link:hover {
     background-color: #3498db;
     color: white;
+}
+.nav-link.active {
+    color: #0dcaf0 !important; /* Bootstrap 5 text-info */
+    background-color: transparent !important;
+}
+
+/* ===== DASHBOARD CARD HOVER ===== */
+.stat-card {
+    transition: box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+}
+.stat-card:hover {
+    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.15), 0 0.2rem 0.5rem rgba(0,0,0,0.13);
+    transform: translateY(-4px) scale(1.03);
+    z-index: 2;
 }
 
 /* ===== MAIN CONTENT ===== */
@@ -89,3 +106,4 @@ h3, h4, h5, h6, .subheading {
         font-size: 0.9rem;
     }
 }
+

@@ -1,0 +1,264 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Test Inspection Forms{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/inspections.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Test Inspection Form</h2>
+    <p class="text-muted">Testing dynamic form functionality for inspection findings</p>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <form id="test-inspection-form" method="post" novalidate>
+                {% csrf_token %}
+                
+                <!-- Findings Container -->
+                <div id="findings-container">
+                    <input type="hidden" name="findings-TOTAL_FORMS" value="1" id="id_findings-TOTAL_FORMS">
+                    <input type="hidden" name="findings-INITIAL_FORMS" value="0" id="id_findings-INITIAL_FORMS">
+                    <input type="hidden" name="findings-MIN_NUM_FORMS" value="0" id="id_findings-MIN_NUM_FORMS">
+                    <input type="hidden" name="findings-MAX_NUM_FORMS" value="1000" id="id_findings-MAX_NUM_FORMS">
+                    
+                    <!-- Empty finding template (hidden) -->
+                    <div id="empty-finding-template" style="display: none;">
+                        <div class="card mb-4 finding-card" data-index="__prefix__">
+                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                <h5 class="mb-0">Finding #<span class="finding-number">1</span></h5>
+                                <button type="button" class="btn btn-sm btn-outline-danger remove-finding">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <!-- Finding Details -->
+                                <div class="row mb-4">
+                                    <div class="col-md-8">
+                                        <label class="form-label">Description</label>
+                                        <textarea name="findings-__prefix__-description" class="form-control" rows="2" required></textarea>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Severity</label>
+                                        <select name="findings-__prefix__-severity" class="form-select">
+                                            <option value="low">Low</option>
+                                            <option value="medium" selected>Medium</option>
+                                            <option value="high">High</option>
+                                            <option value="critical">Critical</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Time Required</label>
+                                        <div class="input-group">
+                                            <input type="number" name="findings-__prefix__-time_required_hours" 
+                                                   class="form-control" min="0.25" step="0.25" value="1.0" required>
+                                            <span class="input-group-text">hrs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Parts Required -->
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6>Parts Required</h6>
+                                        <button type="button" class="btn btn-sm btn-outline-primary add-part" data-finding-index="__prefix__">
+                                            <i class="fas fa-plus"></i> Add Part
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="parts-container scrollable-container" id="parts-__prefix__">
+                                        <input type="hidden" name="findings-__prefix__-parts-TOTAL_FORMS" value="0" id="id_findings-__prefix__-parts-TOTAL_FORMS">
+                                        <input type="hidden" name="findings-__prefix__-parts-INITIAL_FORMS" value="0" id="id_findings-__prefix__-parts-INITIAL_FORMS">
+                                        <input type="hidden" name="findings-__prefix__-parts-MIN_NUM_FORMS" value="0" id="id_findings-__prefix__-parts-MIN_NUM_FORMS">
+                                        <input type="hidden" name="findings-__prefix__-parts-MAX_NUM_FORMS" value="1000" id="id_findings-__prefix__-parts-MAX_NUM_FORMS">
+                                    </div>
+                                </div>
+                                
+                                <!-- Consumables Required -->
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6>Consumables Required</h6>
+                                        <button type="button" class="btn btn-sm btn-outline-primary add-consumable" data-finding-index="__prefix__">
+                                            <i class="fas fa-plus"></i> Add Consumable
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="consumables-container scrollable-container" id="consumables-__prefix__">
+                                        <input type="hidden" name="findings-__prefix__-consumables-TOTAL_FORMS" value="0" id="id_findings-__prefix__-consumables-TOTAL_FORMS">
+                                        <input type="hidden" name="findings-__prefix__-consumables-INITIAL_FORMS" value="0" id="id_findings-__prefix__-consumables-INITIAL_FORMS">
+                                        <input type="hidden" name="findings-__prefix__-consumables-MIN_NUM_FORMS" value="0" id="id_findings-__prefix__-consumables-MIN_NUM_FORMS">
+                                        <input type="hidden" name="findings-__prefix__-consumables-MAX_NUM_FORMS" value="1000" id="id_findings-__prefix__-consumables-MAX_NUM_FORMS">
+                                    </div>
+                                </div>
+                                
+                                <!-- Finding Remarks -->
+                                <div class="mb-3">
+                                    <label class="form-label">Remarks</label>
+                                    <textarea name="findings-__prefix__-remarks" class="form-control" rows="2"></textarea>
+                                </div>
+                                
+                                <input type="hidden" name="findings-__prefix__-id" id="id_findings-__prefix__-id">
+                                <input type="hidden" name="findings-__prefix__-DELETE" id="id_findings-__prefix__-DELETE">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Initial finding form -->
+                    <div class="card mb-4 finding-card" data-index="0">
+                        <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                            <h5 class="mb-0">Finding #<span class="finding-number">1</span></h5>
+                            <button type="button" class="btn btn-sm btn-outline-danger remove-finding">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <!-- Finding Details -->
+                            <div class="row mb-4">
+                                <div class="col-md-8">
+                                    <label class="form-label">Description</label>
+                                    <textarea name="findings-0-description" class="form-control" rows="2" required></textarea>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Severity</label>
+                                    <select name="findings-0-severity" class="form-select">
+                                        <option value="low">Low</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="high">High</option>
+                                        <option value="critical">Critical</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Time Required</label>
+                                    <div class="input-group">
+                                        <input type="number" name="findings-0-time_required_hours" 
+                                               class="form-control" min="0.25" step="0.25" value="1.0" required>
+                                        <span class="input-group-text">hrs</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Parts Required -->
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6>Parts Required</h6>
+                                    <button type="button" class="btn btn-sm btn-outline-primary add-part" data-finding-index="0">
+                                        <i class="fas fa-plus"></i> Add Part
+                                    </button>
+                                </div>
+                                
+                                <div class="parts-container scrollable-container" id="parts-0">
+                                    <input type="hidden" name="findings-0-parts-TOTAL_FORMS" value="0" id="id_findings-0-parts-TOTAL_FORMS">
+                                    <input type="hidden" name="findings-0-parts-INITIAL_FORMS" value="0" id="id_findings-0-parts-INITIAL_FORMS">
+                                    <input type="hidden" name="findings-0-parts-MIN_NUM_FORMS" value="0" id="id_findings-0-parts-MIN_NUM_FORMS">
+                                    <input type="hidden" name="findings-0-parts-MAX_NUM_FORMS" value="1000" id="id_findings-0-parts-MAX_NUM_FORMS">
+                                </div>
+                            </div>
+                            
+                            <!-- Consumables Required -->
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6>Consumables Required</h6>
+                                    <button type="button" class="btn btn-sm btn-outline-primary add-consumable" data-finding-index="0">
+                                        <i class="fas fa-plus"></i> Add Consumable
+                                    </button>
+                                </div>
+                                
+                                <div class="consumables-container scrollable-container" id="consumables-0">
+                                    <input type="hidden" name="findings-0-consumables-TOTAL_FORMS" value="0" id="id_findings-0-consumables-TOTAL_FORMS">
+                                    <input type="hidden" name="findings-0-consumables-INITIAL_FORMS" value="0" id="id_findings-0-consumables-INITIAL_FORMS">
+                                    <input type="hidden" name="findings-0-consumables-MIN_NUM_FORMS" value="0" id="id_findings-0-consumables-MIN_NUM_FORMS">
+                                    <input type="hidden" name="findings-0-consumables-MAX_NUM_FORMS" value="1000" id="id_findings-0-consumables-MAX_NUM_FORMS">
+                                </div>
+                            </div>
+                            
+                            <!-- Finding Remarks -->
+                            <div class="mb-3">
+                                <label class="form-label">Remarks</label>
+                                <textarea name="findings-0-remarks" class="form-control" rows="2"></textarea>
+                            </div>
+                            
+                            <input type="hidden" name="findings-0-id" id="id_findings-0-id">
+                            <input type="hidden" name="findings-0-DELETE" id="id_findings-0-DELETE">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="button" class="btn btn-outline-primary" id="add-finding">
+                        <i class="fas fa-plus"></i> Add Another Finding
+                    </button>
+                    <div>
+                        <button type="button" class="btn btn-outline-secondary me-2" id="preview-data">
+                            <i class="fas fa-eye"></i> Preview Data
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Inspection
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Debug Output -->
+                <div class="mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Form Data Preview</h5>
+                        </div>
+                        <div class="card-body">
+                            <pre id="form-data-preview" class="mb-0">No data to display</pre>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/inspection_forms.js' %}"></script>
+<script>
+// Preview form data
+const form = document.getElementById('test-inspection-form');
+const previewBtn = document.getElementById('preview-data');
+const previewElement = document.getElementById('form-data-preview');
+
+function getFormData(form) {
+    const formData = new FormData(form);
+    const data = {};
+    
+    for (let [key, value] of formData.entries()) {
+        // Skip file inputs and empty values for cleaner output
+        if (value instanceof File || value === '') continue;
+        
+        // Handle array fields
+        if (key.endsWith('[]')) {
+            const baseKey = key.slice(0, -2);
+            if (!data[baseKey]) data[baseKey] = [];
+            data[baseKey].push(value);
+        } else {
+            data[key] = value;
+        }
+    }
+    
+    return data;
+}
+
+previewBtn.addEventListener('click', function() {
+    const formData = getFormData(form);
+    previewElement.textContent = JSON.stringify(formData, null, 2);
+});
+
+// Handle form submission
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = getFormData(form);
+    previewElement.textContent = 'Form would submit with data:\n' + JSON.stringify(formData, null, 2);
+    
+    // In a real app, you would submit the form here
+    // form.submit();
+});
+</script>
+{% endblock %}

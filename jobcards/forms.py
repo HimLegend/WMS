@@ -1,6 +1,16 @@
 # jobcards/forms.py
+import logging
 from django import forms
+from django.utils import timezone
 from .models import JobCard, Customer, Vehicle
+
+import sys
+logger = logging.getLogger("jobcard_debug")
+if not logger.hasHandlers():
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.WARNING)
+    logger.addHandler(handler)
+logger.setLevel(logging.WARNING)
 
 class JobCardModelForm(forms.ModelForm):
     # Inline Customer fields
@@ -21,13 +31,10 @@ class JobCardModelForm(forms.ModelForm):
 
     class Meta:
         model = JobCard
-        fields = [
-            "customer_comments", "workshop_comments", "required_jobs",
-            "date", "time", "job_status"
-        ]
+        exclude = ['customer', 'vehicle']
 
     def __init__(self, *args, **kwargs):
-        request = kwargs.pop("request", None)
+        self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
 
         if self.instance.pk:
@@ -44,48 +51,112 @@ class JobCardModelForm(forms.ModelForm):
             self.fields["vehicle_plate"].initial = self.instance.vehicle.plate
             self.fields["vehicle_vin"].initial = self.instance.vehicle.vin
             self.fields["vehicle_mileage"].initial = self.instance.vehicle.mileage
+        else:
+            # Prefill date/time with current values
+            now = timezone.localtime()
+            self.fields["date"].initial = now.date()
+            self.fields["time"].initial = now.strftime("%H:%M")
+            # Prefill from GET params if available
+            if self.request:
+                customer_id = self.request.GET.get("customer")
+                vehicle_id = self.request.GET.get("vehicle")
 
-        self.request = request  # for saving multiple input lines later
+                from .models import Customer, Vehicle
+                if customer_id:
+                    try:
+                        customer = Customer.objects.get(pk=customer_id)
+                        self.fields["customer_name"].initial = customer.name
+                        self.fields["customer_phone"].initial = customer.phone
+                        self.fields["customer_email"].initial = customer.email
+                        self.fields["customer_company"].initial = customer.company
+                        self.fields["customer_trn"].initial = customer.trn
+                    except Customer.DoesNotExist:
+                        pass
+                if vehicle_id:
+                    try:
+                        vehicle = Vehicle.objects.get(pk=vehicle_id)
+                        self.fields["vehicle_make"].initial = vehicle.make
+                        self.fields["vehicle_model"].initial = vehicle.model
+                        self.fields["vehicle_color"].initial = vehicle.color
+                        self.fields["vehicle_year"].initial = vehicle.year
+                        self.fields["vehicle_plate"].initial = vehicle.plate
+                        self.fields["vehicle_vin"].initial = vehicle.vin
+                        self.fields["vehicle_mileage"].initial = vehicle.mileage
+                        # If customer not set by param, use vehicle's customer
+                        if not customer_id and vehicle.customer:
+                            self.fields["customer_name"].initial = vehicle.customer.name
+                            self.fields["customer_phone"].initial = vehicle.customer.phone
+                            self.fields["customer_email"].initial = vehicle.customer.email
+                            self.fields["customer_company"].initial = vehicle.customer.company
+                            self.fields["customer_trn"].initial = vehicle.customer.trn
+                    except Vehicle.DoesNotExist:
+                        pass
 
     def save(self, commit=True):
+        # Use request to get dynamic job details fields
         instance = super().save(commit=False)
 
-        # Create or update customer
-        customer, _ = Customer.objects.get_or_create(
-            name=self.cleaned_data["customer_name"],
-            phone=self.cleaned_data["customer_phone"],
-            defaults={
-                "email": self.cleaned_data["customer_email"],
-                "company": self.cleaned_data["customer_company"],
-                "trn": self.cleaned_data["customer_trn"],
-            }
-        )
-        instance.customer = customer
+        # Fix: On update, modify the existing customer; on create, use get_or_create
+        if self.instance.pk and self.instance.customer:
+            # Editing: update the linked customer
+            customer = self.instance.customer
+            customer.name = self.cleaned_data["customer_name"]
+            customer.phone = self.cleaned_data["customer_phone"]
+            customer.email = self.cleaned_data["customer_email"]
+            customer.company = self.cleaned_data["customer_company"]
+            customer.trn = self.cleaned_data["customer_trn"]
+            customer.save()
+            instance.customer = customer
+        else:
+            # Creating: get or create customer
+            customer, created = Customer.objects.get_or_create(
+                name=self.cleaned_data["customer_name"],
+                phone=self.cleaned_data["customer_phone"]
+            )
+            customer.email = self.cleaned_data["customer_email"]
+            customer.company = self.cleaned_data["customer_company"]
+            customer.trn = self.cleaned_data["customer_trn"]
+            customer.save()
+            instance.customer = customer
 
-        # Create or update vehicle
+        # Update or create vehicle
         vehicle, created = Vehicle.objects.get_or_create(
             plate=self.cleaned_data["vehicle_plate"],
             defaults={
                 "make": self.cleaned_data["vehicle_make"],
                 "model": self.cleaned_data["vehicle_model"],
                 "color": self.cleaned_data["vehicle_color"],
-                "year": self.cleaned_data["vehicle_year"],
+                "year": int(self.cleaned_data["vehicle_year"]),
                 "vin": self.cleaned_data["vehicle_vin"],
-                "mileage": self.cleaned_data["vehicle_mileage"],
+                "mileage": int(self.cleaned_data["vehicle_mileage"]),
                 "customer": customer,
             }
         )
-        if not created and vehicle.customer is None:
-            vehicle.customer = customer
-            vehicle.save()
-
+        # Update fields in case of edit
+        vehicle.make = self.cleaned_data["vehicle_make"]
+        vehicle.model = self.cleaned_data["vehicle_model"]
+        vehicle.color = self.cleaned_data["vehicle_color"]
+        vehicle.year = int(self.cleaned_data["vehicle_year"])
+        vehicle.vin = self.cleaned_data["vehicle_vin"]
+        vehicle.mileage = int(self.cleaned_data["vehicle_mileage"])
+        vehicle.customer = customer
+        vehicle.save()
         instance.vehicle = vehicle
 
-        # Handle dynamic item lists from POST
-        if self.request:
-            instance.required_jobs = "\n".join(self.request.POST.getlist("required_jobs[]"))
-            instance.customer_comments = "\n".join(self.request.POST.getlist("customer_comments[]"))
-            instance.workshop_comments = "\n".join(self.request.POST.getlist("workshop_comments[]"))
+        # Handle dynamic inputs from the form
+        # Robustly handle job details fields
+        def _get_list_or_cleaned(field):
+            vals = []
+            if self.request:
+                vals = self.request.POST.getlist(f"{field}[]")
+            if vals:
+                return "\n".join([v for v in vals if v.strip()])
+            # fallback to cleaned_data (single value)
+            return self.cleaned_data.get(field, "") or ""
+
+        instance.required_jobs = _get_list_or_cleaned("required_jobs")
+        instance.customer_comments = _get_list_or_cleaned("customer_comments")
+        instance.workshop_comments = _get_list_or_cleaned("workshop_comments")
 
         if commit:
             instance.save()

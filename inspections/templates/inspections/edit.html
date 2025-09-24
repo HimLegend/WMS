@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Edit Inspection Report #{{ report.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Inspection Report #{{ report.id }}</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="card mb-4 shadow">
+            <div class="card-header bg-primary text-white">
+                <strong>Report Details</strong>
+            </div>
+            <div class="card-body">
+                {{ report_form.as_p }}
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                <strong>Inspection Findings</strong>
+                <button type="button" id="add-finding" class="btn btn-sm btn-light">+ Add Finding</button>
+            </div>
+            <div class="card-body" id="findings-container">
+                {{ finding_formset.management_form }}
+
+                {% for form in finding_formset.forms %}
+                <div class="card finding-form mb-3 border border-warning">
+                    <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                        <span><strong>Finding {{ forloop.counter }}</strong></span>
+                        <button type="button" class="btn btn-sm btn-outline-danger remove-finding">✖</button>
+                    </div>
+                    <div class="card-body">
+                        {{ form.id }}
+                        {{ form.DELETE }}
+                        {{ form.as_p }}
+                        <div class="mt-2">
+                            <a href="{% url 'inspections:manage_parts' form.instance.pk %}"
+                                class="btn btn-sm btn-outline-primary">Manage Parts</a>
+                            <a href="{% url 'inspections:manage_consumables' form.instance.pk %}"
+                                class="btn btn-sm btn-outline-secondary">Manage Consumables</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-success">💾 Save Changes</button>
+        </div>
+    </form>
+</div>
+
+{% block extra_js %}
+<script src="{% static 'js/inspection_edit.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

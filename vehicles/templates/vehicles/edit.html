@@ -11,36 +11,89 @@
         </div>
         <div class="card-body">
             <form method="post">
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        Please fix the errors below.
+                    </div>
+                {% endif %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
                 {% csrf_token %}
+                <div class="mb-3">
+                    {% if form.customer.errors %}
+                        <div class="text-danger small mb-1">{{ form.customer.errors }}</div>
+                    {% endif %}
+                    <label for="id_customer" class="form-label">Customer</label>
+                    {{ form.customer|add_class:"form-control" }}
+                </div>
                 <div class="row">
                     <div class="col-md-4 mb-3">
+                        {% if form.make.errors %}
+                            <div class="text-danger small mb-1">{{ form.make.errors }}</div>
+                        {% endif %}
                         <label for="id_make" class="form-label">Make</label>
                         {{ form.make|add_class:"form-control" }}
                     </div>
                     <div class="col-md-4 mb-3">
+                        {% if form.model.errors %}
+                            <div class="text-danger small mb-1">{{ form.model.errors }}</div>
+                        {% endif %}
                         <label for="id_model" class="form-label">Model</label>
                         {{ form.model|add_class:"form-control" }}
                     </div>
                     <div class="col-md-4 mb-3">
+                        {% if form.year.errors %}
+                            <div class="text-danger small mb-1">{{ form.year.errors }}</div>
+                        {% endif %}
                         <label for="id_year" class="form-label">Year</label>
                         {{ form.year|add_class:"form-control" }}
                     </div>
                     <div class="col-md-4 mb-3">
+                        {% if form.color.errors %}
+                            <div class="text-danger small mb-1">{{ form.color.errors }}</div>
+                        {% endif %}
                         <label for="id_color" class="form-label">Color</label>
                         {{ form.color|add_class:"form-control" }}
                     </div>
                     <div class="col-md-4 mb-3">
+                        {% if form.plate.errors %}
+                            <div class="text-danger small mb-1">{{ form.plate.errors }}</div>
+                        {% endif %}
                         <label for="id_plate" class="form-label">Plate Number</label>
                         {{ form.plate|add_class:"form-control" }}
                     </div>
                     <div class="col-md-4 mb-3">
+                        {% if form.vin.errors %}
+                            <div class="text-danger small mb-1">{{ form.vin.errors }}</div>
+                        {% endif %}
                         <label for="id_vin" class="form-label">VIN Number</label>
                         {{ form.vin|add_class:"form-control" }}
                     </div>
                 </div>
+                <div class="mb-3">
+                    {% if form.mileage.errors %}
+                        <div class="text-danger small mb-1">{{ form.mileage.errors }}</div>
+                    {% endif %}
+                    <label for="id_mileage" class="form-label">Mileage</label>
+                    {{ form.mileage|add_class:"form-control" }}
+                </div>
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-warning">Update Vehicle</button>
+                    {% if form.errors and not form.non_field_errors %}
+                        <div class="text-danger mt-2">Please fix the errors above.</div>
+                    {% endif %}
                 </div>
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
             </form>
         </div>
     </div>

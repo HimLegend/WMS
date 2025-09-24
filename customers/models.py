@@ -9,4 +9,4 @@ class Customer(models.Model):
     trn = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
-        return self.company if self.company else self.name
+        return self.name if self.name else self.company

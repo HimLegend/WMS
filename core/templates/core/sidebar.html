@@ -1,14 +1,28 @@
-{% load static %}
-<nav class="col-md-2 sidebar-container d-flex flex-column align-items-center py-4">
-    <a href="{% url 'dashboard' %}" class="mb-3">
+{# Sidebar replaced by top navbar. File intentionally left blank. #}
+    <!-- <a href="{% url 'dashboard' %}" class="mb-3">
         <img src="{% static 'images/logo.png' %}" alt="Logo" class="sidebar-logo img-fluid">
     </a>
-    <h5 class="text-danger mb-4 text-center">Workshop Manager</h5>
+    <h5 class="text-white mb-4 text-center">Workshop Manager</h5>
     <ul class="nav flex-column w-100 px-2">
         <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="fas fa-user me-2"></i> Login
-            </a>
+            {% if request.user.is_authenticated %}
+                <span class="nav-link disabled" style="color: cyan;">
+                    <i class="fas fa-user me-2"></i> {{ request.user.username }}
+                </span>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link" style="background:none;border:none;width:100%;text-align:left;">
+                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-link">
+                    <i class="fas fa-sign-in-alt me-2"></i> Login
+                </a>
+                <a href="{% url 'register' %}" class="nav-link">
+                    <i class="fas fa-user-plus me-2"></i> Register
+                </a>
+            {% endif %}
         </li>
         <li class="nav-item">
             <a href="{% url 'dashboard' %}" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}">
@@ -18,6 +32,11 @@
         <li class="nav-item">
             <a href="{% url 'jobcard_list' %}" class="nav-link {% if 'jobcards' in request.path %}active{% endif %}">
                 <i class="fas fa-file-alt me-2"></i> Job Cards
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'inspection_list' %}" class="nav-link {% if 'inspections' in request.path %}active{% endif %}">
+                <i class="fas fa-clipboard-list me-2"></i> Tech Reports
             </a>
         </li>
         <li class="nav-item">
@@ -42,4 +61,4 @@
         </li>
         <!-- Add more links later -->
     </ul>
-</nav>
+</nav> -->

@@ -4,12 +4,16 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Job Cards</h2>
-    <a href="{% url 'jobcard_create' %}" class="btn btn-primary mb-3">+ Create New</a>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="mb-0">Job Cards</h2>
+        <a href="{% url 'jobcard_create' %}" class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; font-size: 1.5rem;">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
 
     {% if jobcards %}
-    <table class="table table-striped">
-        <thead>
+    <table class="table table-hover">
+        <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Date</th>
@@ -42,6 +46,5 @@
     {% endif %}
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
 {% endblock %}

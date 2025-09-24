@@ -1,0 +1,233 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Edit Quotation #{{ quotation.quotation_number }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Customer and Vehicle Info (Read-only) -->
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Customer & Vehicle Details</h5>
+            <span class="badge bg-{{ jobcard.get_status_bg }}">{{ jobcard.get_job_status_display }}</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Customer Details -->
+                <div class="col-md-6">
+                    <h5 class="text-primary"><i class="fas fa-user me-2"></i>Customer Details</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li><strong>Name:</strong> {{ jobcard.customer.name }}</li>
+                        <li><strong>Phone:</strong> {{ jobcard.customer.phone }}</li>
+                        <li><strong>Email:</strong> {{ jobcard.customer.email }}</li>
+                        <li><strong>Company:</strong> {{ jobcard.customer.company }}</li>
+                        <li><strong>TRN:</strong> {{ jobcard.customer.trn }}</li>
+                    </ul>
+                </div>
+                <!-- Vehicle Details -->
+                <div class="col-md-6">
+                    <h5 class="text-success"><i class="fas fa-car me-2"></i>Vehicle Details</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li><strong>Make:</strong> {{ jobcard.vehicle.make }}</li>
+                        <li><strong>Model:</strong> {{ jobcard.vehicle.model }}</li>
+                        <li><strong>Year:</strong> {{ jobcard.vehicle.year }}</li>
+                        <li><strong>Color:</strong> {{ jobcard.vehicle.color }}</li>
+                        <li><strong>Plate:</strong> {{ jobcard.vehicle.plate }}</li>
+                        <li><strong>VIN:</strong> {{ jobcard.vehicle.vin }}</li>
+                        <li><strong>Mileage:</strong> {{ jobcard.vehicle.mileage }} km</li>
+                    </ul>
+                </div>
+            </div>
+
+            {% if jobcard.required_jobs or jobcard.workshop_comments %}
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h5 class="text-info"><i class="fas fa-clipboard me-2"></i>Job Details</h5>
+                    {% if jobcard.required_jobs %}
+                    <p><strong>Required Jobs:</strong> {{ jobcard.required_jobs }}</p>
+                    {% endif %}
+                    {% if jobcard.workshop_comments %}
+                    <p><strong>Workshop Notes:</strong> {{ jobcard.workshop_comments }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <!-- Quotation main form -->
+        {{ form.as_p }}
+
+        <!-- Quotation items formset management -->
+        {{ formset.management_form }}
+
+        <!-- Header + Cancel -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-secondary">Edit Quotation #{{ quotation.quotation_number }}</h2>
+            <a href="{% url 'quotation_detail' quotation.id %}" class="btn btn-outline-secondary">
+                <i class="fas fa-times me-1"></i> Cancel
+            </a>
+        </div>
+
+        <!-- Items Table -->
+        <div class="card mb-4 shadow-sm border-0">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Quotation Items</h5>
+                <button type="button" id="add-item-btn" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-plus me-1"></i> Add Item
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 5%">#</th>
+                                <th style="width: 45%">Description</th>
+                                <th style="width: 15%">Unit Price</th>
+                                <th style="width: 15%">Quantity</th>
+                                <th style="width: 15%">Total</th>
+                                <th style="width: 5%"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="items-container">
+                            {% for form in formset %}
+                            <tr class="item-form-row">
+                                <td class="text-center">{{ forloop.counter }}</td>
+                                <td>
+                                    {{ form.id }}
+                                    {{ form.description|add_class:"form-control form-control-sm"|attr:"required" }}
+                                    {% if form.description.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.description.errors.0 }}</div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text">AED</span>
+                                        {{ form.unit_price|add_class:"form-control text-end unit-price"|attr:"step:0.01 min:0 required" }}
+                                    </div>
+                                    {% if form.unit_price.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.unit_price.errors.0 }}</div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="input-group input-group-sm quantity-controls">
+                                        <button type="button" class="btn btn-outline-secondary quantity-down"
+                                            tabindex="-1">-</button>
+                                        {{ form.quantity|add_class:"form-control text-center quantity"|attr:"min:1 required" }}
+                                        <button type="button" class="btn btn-outline-secondary quantity-up"
+                                            tabindex="-1">+</button>
+                                    </div>
+                                    {% if form.quantity.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.quantity.errors.0 }}</div>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end align-middle">
+                                    <span class="item-total">0.00</span>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <button type="button" class="btn btn-sm btn-outline-danger remove-item">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    {{ form.DELETE|attr:"class:d-none" }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                            <!-- Empty form template for JS clone -->
+                            <tr class="item-form-row d-none" id="empty-form-template">
+                                <td class="text-center">__prefix__</td>
+                                <td>
+                                    {{ formset.empty_form.id }}
+                                    {{ formset.empty_form.description|add_class:"form-control form-control-sm"|attr:"required" }}
+                                </td>
+                                <td>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text">AED</span>
+                                        {{ formset.empty_form.unit_price|add_class:"form-control text-end unit-price"|attr:"step:0.01 min:0 required" }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group input-group-sm quantity-controls">
+                                        <button type="button" class="btn btn-outline-secondary quantity-down"
+                                            tabindex="-1">-</button>
+                                        {{ formset.empty_form.quantity|add_class:"form-control text-center quantity"|attr:"min:1 required" }}
+                                        <button type="button" class="btn btn-outline-secondary quantity-up"
+                                            tabindex="-1">+</button>
+                                    </div>
+                                </td>
+                                <td class="text-end align-middle">
+                                    <span class="item-total">0.00</span>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <button type="button" class="btn btn-sm btn-outline-danger remove-item">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    {{ formset.empty_form.DELETE|attr:"class:d-none" }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Totals and Options -->
+        <div class="card mb-4 shadow-sm border-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-check form-switch mb-3">
+                            {{ form.include_vat }}
+                            <label class="form-check-label" for="{{ form.include_vat.id_for_label }}">Include 5% VAT</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.discount_percentage.id_for_label }}" class="form-label">Discount %</label>
+                            <div class="input-group">
+                                {{ form.discount_percentage|add_class:"form-control"|attr:"min:0 max:100" }}
+                                <span class="input-group-text">%</span>
+                            </div>
+                            {% if form.discount_percentage.errors %}
+                            <div class="invalid-feedback d-block">{{ form.discount_percentage.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span id="subtotal-display">AED {{ form.instance.subtotal|default:0|floatformat:2 }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Discount:</span>
+                            <span id="discount-display">-AED {{ form.instance.discount_amount|default:0|floatformat:2 }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>VAT ({{ form.instance.vat_percentage|default:'0'|floatformat:0 }}%):</span>
+                            <span id="vat-display">AED {{ form.instance.vat_amount|default:0|floatformat:2 }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between fw-bold fs-5 border-top pt-2">
+                            <span>Grand Total:</span>
+                            <span id="grand-total-display">AED {{ form.instance.grand_total|default:0|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save button -->
+        <div class="text-end">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save me-1"></i> Save Changes
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/quotation_edit.js' %}"></script>
+{% endblock %}

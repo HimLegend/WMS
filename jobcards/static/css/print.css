@@ -1,0 +1,237 @@
+/* Print styles for job card */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    color: #333;
+}
+
+.jobcard-header h4 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin: 0;
+}
+
+.jobcard-meta {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+h6 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.25rem;
+}
+
+.list-unstyled {
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+
+.list-unstyled li {
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0;
+}
+
+.ps-3 {
+    padding-left: 1rem;
+}
+
+.mb-3 {
+    margin-bottom: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.pt-3 {
+    padding-top: 1rem;
+}
+
+.border-top {
+    border-top: 1px solid #dee2e6;
+}
+
+.border-start {
+    border-left: 1px solid #dee2e6;
+}
+
+/* Details Container */
+.details-container {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.details-section {
+    flex: 1;
+    min-width: 0;
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.details-table tr {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.details-table tr:last-child {
+    border-bottom: none;
+}
+
+.details-table td {
+    padding: 0.4rem 0;
+    vertical-align: top;
+}
+
+.details-table .label {
+    color: #666;
+    font-weight: 500;
+    padding-right: 1rem;
+    white-space: nowrap;
+    width: 1%;
+}
+
+/* Ensure proper printing */
+@media print {
+    .details-container {
+        page-break-inside: avoid;
+    }
+    
+    .details-section {
+        page-break-inside: avoid;
+    }
+}
+
+@media print {
+    /* Hide elements not needed in print */
+    .no-print, .btn, .navbar, .footer {
+        display: none !important;
+    }
+
+    /* Page setup */
+    @page {
+        size: A4;
+        margin: 1.5cm;
+    }
+
+    body {
+        font-size: 11pt;
+        line-height: 1;
+        color: #000;
+        background: #fff;
+    }
+
+    /* Header styles */
+    .print-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #2c3e50;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .company-info {
+        flex: 1;
+        font-size: 11pt;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .company-logo {
+        max-width: 100px;
+        height: auto;
+        margin-left: 20px;
+    }
+    
+    .company-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    /* Content styles */
+    .print-content {
+        margin: 20px 0;
+    }
+
+    /* Footer styles */
+    .print-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 15px;
+        text-align: center;
+        font-size: 8pt;
+        border-top: 1px solid #ddd;
+        background: #fff;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 0.75rem;
+    }
+
+    /* Utility classes */
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 0.75rem;
+    }
+    
+    /* Make main content area more compact */
+    .jobcard-header,
+    .details-container,
+    .border-top {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    /* Table styles */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+    }
+
+    th, td {
+        border: 1px hidden #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f5f5f5;
+    }
+
+    /* Utility classes */
+    .text-right {
+        text-align: right;
+    }
+
+    .mt-3 {
+        margin-top: 1rem;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+}

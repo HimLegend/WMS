@@ -1,51 +1,120 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
-{% block title %}Quotation {{ quotation.quotation_number }}{% endblock %}
+{% block title %}Quotation #{{ quotation.id }}{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-3">Quotation {{ quotation.quotation_number }}</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <p><strong>Customer:</strong> {{ quotation.jobcard.customer }}</p>
-            <p><strong>Vehicle:</strong> {{ quotation.jobcard.vehicle }}</p>
-            <p><strong>Date:</strong> {{ quotation.date_created }}</p>
-        </div>
-        <div class="col-md-6 text-end">
-            <a href="{% url 'quotation_edit' quotation.pk %}" class="btn btn-warning">Edit</a>
-            <a href="{% url 'quotation_pdf' quotation.pk %}" class="btn btn-sm btn-outline-primary">Download PDF</a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-secondary">Quotation #{{ quotation.quotation_number }}</h2>
+        <div class="d-flex gap-2">
+            <a href="{% url 'quotation_pdf' quotation.id %}" class="btn btn-outline-secondary">
+                <i class="fas fa-file-pdf me-1"></i> Download PDF
+            </a>
+            <a href="{% url 'quotation_edit' quotation.id %}" class="btn btn-outline-primary">
+                <i class="fas fa-edit me-1"></i> Edit
+            </a>
         </div>
     </div>
 
-    <hr>
-    <h5>Items</h5>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Description</th>
-                <th>Qty</th>
-                <th>Unit Price</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in quotation.items.all %}
-            <tr>
-                <td>{{ item.description }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.unit_price }}</td>
-                <td>{{ item.line_total }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <hr>
-    <div class="text-end">
-        <p><strong>Subtotal:</strong> {{ quotation.subtotal|floatformat:2 }}</p>
-        <p><strong>Discount:</strong> -{{ quotation.discount_amount|floatformat:2 }}</p>
-        <p><strong>VAT ({{ quotation.vat_percentage }}%):</strong> {{ quotation.vat_amount|floatformat:2 }}</p>
-        <h5><strong>Total:</strong> {{ quotation.grand_total|floatformat:2 }}</h5>
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Customer & Vehicle Details</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="text-primary"><i class="fas fa-user me-2"></i>Customer</h6>
+                    <ul class="list-unstyled">
+                        <li><strong>Name:</strong> {{ quotation.jobcard.customer.name }}</li>
+                        <li><strong>Phone:</strong> {{ quotation.jobcard.customer.phone }}</li>
+                        <li><strong>Email:</strong> {{ quotation.jobcard.customer.email }}</li>
+                        <li><strong>Company:</strong> {{ quotation.jobcard.customer.company }}</li>
+                        <li><strong>TRN:</strong> {{ quotation.jobcard.customer.trn }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-success"><i class="fas fa-car me-2"></i>Vehicle</h6>
+                    <ul class="list-unstyled">
+                        <li><strong>Make:</strong> {{ quotation.jobcard.vehicle.make }}</li>
+                        <li><strong>Model:</strong> {{ quotation.jobcard.vehicle.model }}</li>
+                        <li><strong>Year:</strong> {{ quotation.jobcard.vehicle.year }}</li>
+                        <li><strong>Color:</strong> {{ quotation.jobcard.vehicle.color }}</li>
+                        <li><strong>Plate:</strong> {{ quotation.jobcard.vehicle.plate }}</li>
+                        <li><strong>VIN:</strong> {{ quotation.jobcard.vehicle.vin }}</li>
+                        <li><strong>Mileage:</strong> {{ quotation.jobcard.vehicle.mileage }} km</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Quotation Items</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 5%">#</th>
+                            <th>Description</th>
+                            <th class="text-end" style="width: 15%">Unit Price</th>
+                            <th class="text-end" style="width: 10%">Quantity</th>
+                            <th class="text-end" style="width: 15%">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in quotation.items.all %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ item.description }}</td>
+                            <td class="text-end">AED {{ item.unit_price|floatformat:2 }}</td>
+                            <td class="text-end">{{ item.quantity }}</td>
+                            <td class="text-end">AED {{ item.line_total|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body">
+            <div class="row justify-content-end">
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal:</span>
+                        <span>AED {{ quotation.subtotal|floatformat:2 }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Discount ({{ quotation.discount_percentage }}%):</span>
+                        <span>-AED {{ quotation.discount_amount|floatformat:2 }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>VAT ({{ quotation.vat_percentage }}%):</span>
+                        <span>AED {{ quotation.vat_amount|floatformat:2 }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold fs-5 border-top pt-2">
+                        <span>Total:</span>
+                        <span>AED {{ quotation.grand_total|floatformat:2 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if quotation.notes %}
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Additional Notes</h5>
+        </div>
+        <div class="card-body">
+            <p>{{ quotation.notes }}</p>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

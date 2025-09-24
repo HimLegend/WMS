@@ -1,6 +1,9 @@
+<!-- jobcards/create.html -->
+
 {% extends 'core/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+
 {% block title %}Create Job Card{% endblock %}
 
 {% block content %}
@@ -13,61 +16,67 @@
             <form method="post">
                 {% csrf_token %}
 
-                <!-- Section: Customer Details -->
-                <h5 class="mb-3">Customer Information</h5>
                 <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="id_customer_name" class="form-label">Name</label>
-                        {{ form.customer_name|add_class:"form-control" }}
+                    <!-- Customer Details -->
+                    <div class="col-md-6">
+                        <h5>Customer Details</h5>
+                        <ul class="list-group mb-4 border-0">
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">Name</span>
+                                {{ form.customer_name|add_class:"form-control flex-grow-1" }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">Phone</span>
+                                {{ form.customer_phone|add_class:"form-control flex-grow-1" }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">Email</span>
+                                {{ form.customer_email|add_class:"form-control flex-grow-1" }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">Company</span>
+                                {{ form.customer_company|add_class:"form-control flex-grow-1" }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">TRN</span>
+                                {{ form.customer_trn|add_class:"form-control flex-grow-1" }}
+                            </li>
+                        </ul>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="id_customer_phone" class="form-label">Phone</label>
-                        {{ form.customer_phone|add_class:"form-control" }}
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="id_customer_email" class="form-label">Email</label>
-                        {{ form.customer_email|add_class:"form-control" }}
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="id_customer_company" class="form-label">Company</label>
-                        {{ form.customer_company|add_class:"form-control" }}
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="id_customer_trn" class="form-label">TRN</label>
-                        {{ form.customer_trn|add_class:"form-control" }}
-                    </div>
-                </div>
 
-                <!-- Section: Vehicle Details -->
-                <h5 class="mt-4 mb-3">Vehicle Information</h5>
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="id_vehicle_make" class="form-label">Make</label>
-                        {{ form.vehicle_make|add_class:"form-control" }}
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="id_vehicle_model" class="form-label">Model</label>
-                        {{ form.vehicle_model|add_class:"form-control" }}
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="id_vehicle_year" class="form-label">Year</label>
-                        {{ form.vehicle_year|add_class:"form-control" }}
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="id_vehicle_color" class="form-label">Color</label>
-                        {{ form.vehicle_color|add_class:"form-control" }}
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="id_vehicle_plate" class="form-label">Plate Number</label>
-                        {{ form.vehicle_plate|add_class:"form-control" }}
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="id_vehicle_vin" class="form-label">VIN Number</label>
-                        {{ form.vehicle_vin|add_class:"form-control" }}
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="id_vehicle_mileage" class="form-label">Mileage</label>
-                        {{ form.vehicle_mileage|add_class:"form-control" }}
+                    <!-- Vehicle Details -->
+                    <div class="col-md-6">
+                        <h5>Vehicle Details</h5>
+                        <ul class="list-group mb-4 border-0">
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">Make</span>
+                                {{ form.vehicle_make|add_class:"form-control flex-grow-1" }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">Model</span>
+                                {{ form.vehicle_model|add_class:"form-control flex-grow-1" }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">Year</span>
+                                {{ form.vehicle_year|add_class:"form-control flex-grow-1" }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">Color</span>
+                                {{ form.vehicle_color|add_class:"form-control flex-grow-1" }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">Plate</span>
+                                {{ form.vehicle_plate|add_class:"form-control flex-grow-1" }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">VIN</span>
+                                {{ form.vehicle_vin|add_class:"form-control flex-grow-1" }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                <span class="me-3">Mileage</span>
+                                {{ form.vehicle_mileage|add_class:"form-control flex-grow-1" }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
@@ -75,57 +84,80 @@
                 <h5 class="mt-4 mb-3">Check-in Timing</h5>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="id_date" class="form-label">Date</label>
+                        <label class="form-label">Date</label>
                         <input type="date" name="date" id="id_date" class="form-control">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="id_time" class="form-label">Time</label>
+                        <label class="form-label">Time</label>
                         <input type="time" name="time" id="id_time" class="form-control">
                     </div>
                 </div>
 
-                <!-- Section: Notes -->
-                <h5 class="mt-4 mb-3">Job Notes</h5>
-                <div class="mb-3">
-                    <label class="form-label">Required Jobs</label>
-                    <div id="required-jobs-list">
-                        <div class="input-group mb-2">
-                            <input type="text" name="required_jobs[]" class="form-control" placeholder="Enter job..." />
-                            <button class="btn btn-outline-secondary" type="button"
-                                onclick="addJobLine('required-jobs-list')">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Customer Comments</label>
-                    <div id="customer-comments-list">
-                        <div class="input-group mb-2">
-                            <input type="text" name="customer_comments[]" class="form-control"
-                                placeholder="Enter Comments..." />
-                            <button class="btn btn-outline-secondary" type="button"
-                                onclick="addJobLine('customer-comments-list')">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Workshop Comments</label>
-                    <div id="workshop-comments-list">
-                        <div class="input-group mb-2">
-                            <input type="text" name="workshop_comments[]" class="form-control"
-                                placeholder="Enter Comments..." />
-                            <button class="btn btn-outline-secondary" type="button"
-                                onclick="addJobLine('workshop-comments-list')">+</button>
+                <!-- Section: Comments in Accordion -->
+                <h5 class="mt-4 mb-3">Notes & Comments</h5>
+                <div class="accordion" id="jobCardAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingComments">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComments" aria-expanded="true">
+                                Required Jobs, Customer & Workshop Comments
+                            </button>
+                        </h2>
+                        <div id="collapseComments" class="accordion-collapse collapse show" aria-labelledby="headingComments">
+                            <div class="accordion-body">
+                                <!-- Required Jobs -->
+                                <div class="mb-3">
+                                    <label class="form-label">Required Jobs</label>
+                                    <div id="required_jobs_list">
+                                        <div class="input-group mb-2">
+                                            <input type="text" name="required_jobs[]" class="form-control" placeholder="Enter job..." />
+                                            <button class="btn btn-outline-secondary" type="button" onclick="addInputRow('required_jobs_list')">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Customer Comments -->
+                                <div class="mb-3">
+                                    <label class="form-label">Customer Comments</label>
+                                    <div id="customer_comments_list">
+                                        <div class="input-group mb-2">
+                                            <input type="text" name="customer_comments[]" class="form-control" placeholder="Enter comment..." />
+                                            <button class="btn btn-outline-secondary" type="button" onclick="addInputRow('customer_comments_list')">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Workshop Comments -->
+                                <div class="mb-3">
+                                    <label class="form-label">Workshop Comments</label>
+                                    <div id="workshop_comments_list">
+                                        <div class="input-group mb-2">
+                                            <input type="text" name="workshop_comments[]" class="form-control" placeholder="Enter comment..." />
+                                            <button class="btn btn-outline-secondary" type="button" onclick="addInputRow('workshop_comments_list')">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Job Notes -->
+                                <div class="mb-3">
+                                    <label class="form-label">Job Notes</label>
+                                    <div id="job_notes_list">
+                                        <div class="input-group mb-2">
+                                            <input type="text" name="job_notes[]" class="form-control" placeholder="Enter note..." />
+                                            <button class="btn btn-outline-secondary" type="button" onclick="addInputRow('job_notes_list')">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section: Status -->
-                <div class="mb-3">
-                    <label for="id_job_status" class="form-label">Job Status</label>
+                <!-- Job Status -->
+                <div class="mb-3 mt-4">
+                    <label class="form-label">Job Status</label>
                     {{ form.job_status|add_class:"form-select" }}
                 </div>
 
-                <!-- Submit -->
+                <!-- Submit Button -->
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-success">Submit Job Card</button>
                 </div>
@@ -134,21 +166,5 @@
     </div>
 </div>
 
-<script>
-    window.onload = function () {
-        const now = new Date();
-        document.getElementById("id_date").value = now.toISOString().split('T')[0];
-        document.getElementById("id_time").value = now.toTimeString().slice(0, 5);
-    };
-    function addJobLine(containerId) {
-        const container = document.getElementById(containerId);
-        const div = document.createElement('div');
-        div.className = 'input-group mb-2';
-        div.innerHTML = `
-            <input type="text" name="${containerId.replace('-list', '')}[]" class="form-control" placeholder="Enter item..." />
-            <button class="btn btn-outline-danger" type="button" onclick="this.parentElement.remove()">−</button>
-        `;
-        container.appendChild(div);
-    }
-</script>
+<script src="{% static 'js/jobcard_create.js' %}"></script>
 {% endblock %}

@@ -1,0 +1,15 @@
+.finding {
+    background-color: #f9f9f9;
+    border-left: 4px solid #007bff;
+}
+
+.part-form, .consumable-form {
+    border-left: 3px solid #198754;
+}
+
+.parts-section, .consumables-section {
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #eef5f9;
+    border-radius: 5px;
+}

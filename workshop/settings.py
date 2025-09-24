@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+LOGIN_REDIRECT_URL = '/dashboard/'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,10 +42,10 @@ INSTALLED_APPS = [
     'core',
     'jobcards',
     'customers',
-    'inspections',
     'inventory',
     'vehicles',
     'quotations',
+    'inspections',
     'widget_tweaks',
 ]
 
@@ -126,7 +128,8 @@ USE_TZ = True
 # Add these settings at the bottom of your settings.py
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'core/static',  # Your custom static files
+    BASE_DIR / 'core/static',  # Core static files
+    BASE_DIR / 'quotations/static',  # Quotations app static files
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Where collectstatic will put files
 
@@ -141,3 +144,6 @@ LOGOUT_REDIRECT_URL = 'login'  # Name of your login URL pattern
 # Session settings (optional but recommended)
 SESSION_COOKIE_AGE = 3600  # 1 hour in seconds
 SESSION_SAVE_EVERY_REQUEST = True
+
+INSTALLED_APPS += ['crispy_forms', 'crispy_bootstrap5']
+CRISPY_TEMPLATE_PACK = 'bootstrap5'

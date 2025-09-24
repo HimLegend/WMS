@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inspection Report #{{ inspection.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .meta {
+            text-align: right;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .section {
+            margin-top: 25px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .section h3 {
+            margin-top: 0;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 12px;
+            color: #aaa;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Inspection Report</h1>
+        <p>Report ID: #{{ inspection.id }}</p>
+        <p>Job Card ID: #{{ inspection.job_card.id }}</p>
+    </div>
+
+    <div class="meta">
+        <p>Generated on: {{ inspection.created_at|date:"F j, Y, g:i a" }}</p>
+    </div>
+
+    {% if findings %}
+    {% for finding in findings %}
+    <div class="section">
+        <h3>Finding {{ forloop.counter }}</h3>
+        <p><strong>Description:</strong> {{ finding.issue_description }}</p>
+        <p><strong>Estimated Time:</strong> {{ finding.estimated_time_hours }} hours</p>
+
+        {% if finding.parts.all %}
+        <p><strong>Parts Required:</strong></p>
+        <ul>
+            {% for part in finding.parts.all %}
+            <li>{{ part.name }} — Qty: {{ part.quantity }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if finding.consumables.all %}
+        <p><strong>Consumables:</strong></p>
+        <ul>
+            {% for c in finding.consumables.all %}
+            <li>{{ c.name }} — Qty: {{ c.quantity }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    {% if not forloop.last %}
+    <div class="page-break"></div>
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    <p>No findings in this inspection report.</p>
+    {% endif %}
+
+    <div class="footer">
+        Ultra Premium Auto Care Services — www.ultrapremium.vip<br>
+        +971 4 881 8838 — +971 54 398 8102
+    </div>
+
+</body>
+
+</html>

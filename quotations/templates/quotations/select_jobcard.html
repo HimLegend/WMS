@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+{% block title %}Select Job Card{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Select Job Card for New Quotation</h2>
+    <div class="card shadow">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Vehicle</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for job in jobcards %}
+                    <tr>
+                        <td>{{ job.id }}</td>
+                        <td>{{ job.date }}</td>
+                        <td>{{ job.customer.name }}</td>
+                        <td>{{ job.vehicle.make }} {{ job.vehicle.model }}</td>
+                        <td>{{ job.get_job_status_display }}</td>
+                        <td>
+                            <a href="{% url 'quotation_create' job.pk %}" class="btn btn-success btn-sm">
+                                <i class="fas fa-plus"></i> New Quotation
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="6" class="text-center">No job cards available.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

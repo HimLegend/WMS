@@ -6,47 +6,55 @@
 <div class="container dashboard-container">
 
     <!-- Summary Cards -->
-    <div class="row stats-row">
+    <div class="row stats-row mb-4">
         <div class="col-md-3">
-            <div class="card text-white bg-primary stat-card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Customers</h5>
-                    <p class="display-6">{{ customers_count }}</p>
-                    <a href="{% url 'customer_list' %}" class="btn btn-light btn-sm">View All</a>
+            <a href="{% url 'jobcard_list' %}" class="text-decoration-none">
+                <div class="card text-white bg-warning stat-card h-100">
+                    <div class="card-body text-center position-relative">
+                        <h5 class="card-title">Job Cards</h5>
+                        <p class="display-6">{{ jobcards_count }}</p>
+                        <span class="stretched-link"></span>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-success stat-card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Vehicles</h5>
-                    <p class="display-6">{{ vehicles_count }}</p>
-                    <a href="{% url 'vehicle_list' %}" class="btn btn-light btn-sm">View All</a>
+            <a href="{% url 'active_jobcards' %}" class="text-decoration-none">
+                <div class="card text-white bg-success stat-card h-100">
+                    <div class="card-body text-center position-relative">
+                        <h5 class="card-title"><i class="fas fa-briefcase me-2"></i>Active Jobs</h5>
+                        <p class="display-6">{{ active_jobcards_count }}</p>
+                        <span class="stretched-link"></span>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-warning stat-card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Job Cards</h5>
-                    <p class="display-6">{{ jobcards_count }}</p>
-                    <a href="{% url 'jobcard_list' %}" class="btn btn-light btn-sm">View All</a>
+            <a href="{% url 'completed_jobcards' %}" class="text-decoration-none">
+                <div class="card text-white bg-secondary stat-card h-100">
+                    <div class="card-body text-center position-relative">
+                        <h5 class="card-title"><i class="fas fa-check-circle me-2"></i>Completed Jobs</h5>
+                        <p class="display-6">{{ completed_jobcards_count }}</p>
+                        <span class="stretched-link"></span>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-info stat-card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Quotations</h5>
-                    <p class="display-6">{{ quotations_count }}</p>
-                    <a href="{% url 'quotation_list' %}" class="btn btn-light btn-sm">View All</a>
+            <a href="{% url 'quotation_list' %}" class="text-decoration-none">
+                <div class="card text-white bg-info stat-card h-100">
+                    <div class="card-body text-center position-relative">
+                        <h5 class="card-title">Quotations</h5>
+                        <p class="display-6">{{ quotations_count }}</p>
+                        <span class="stretched-link"></span>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 
     <!-- Content Row -->
-    <div class="row content-row">
+    <div class="row content-row mt-4">
         <!-- Recent Job Cards -->
         <div class="col-md-6">
             <div class="card shadow">

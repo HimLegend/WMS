@@ -14,7 +14,7 @@
     </div>
 
     <!-- Individual Fields -->
-    <div id="individualFields" style="display: none;">
+    <div id="">
       <div class="mb-3">
         <label for="name" class="form-label">Full Name</label>
         <input type="text" name="name" class="form-control" id="name">
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Company Fields -->
-    <div id="companyFields" style="display: none;">
+    <div id="">
       <div class="mb-3">
         <label for="company_name" class="form-label">Company Name</label>
         <input type="text" name="company_name" class="form-control" id="company_name">
@@ -47,22 +47,22 @@
   </form>
 </div>
 
-<script>
-  const typeSelect = document.getElementById('customerType');
-  const individualFields = document.getElementById('individualFields');
-  const companyFields = document.getElementById('companyFields');
 
-  typeSelect.addEventListener('change', function () {
+   = document.getElementById('customerType');
+  const  = document.getElementById('');
+  const  = document.getElementById('');
+
+  typeSelect.('change', function () {
     if (this.value === 'individual') {
-      individualFields.style.display = 'block';
-      companyFields.style.display = 'none';
+      .style.display = 'block';
+      .style.display = 'none';
     } else if (this.value === 'company') {
-      individualFields.style.display = 'none';
-      companyFields.style.display = 'block';
+      .style.display = 'none';
+      .style.display = 'block';
     } else {
-      individualFields.style.display = 'none';
-      companyFields.style.display = 'none';
+      .style.display = 'none';
+      .style.display = 'none';
     }
-  });
-</script>
+  
+
 {% endblock %}

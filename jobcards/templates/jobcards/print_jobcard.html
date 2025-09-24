@@ -1,0 +1,162 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/print.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Print Header -->
+<div class="print-header">
+    <div class="company-info">
+        <div class="company-title">
+            <h6>Ultra Premium Auto Care Service</h6>
+            <img src="{% static 'images/logo_print.png' %}" alt="Company Logo" class="company-logo">
+        </div>
+        <p>Al Quoz-3, Dubai - UAE</p>
+        <p>Phone: +971 4 881 8838 | Email: info@ultrapremium.vip</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="jobcard-header mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6>Job CARD #{{ jobcard.id }}</h6>
+            <div class="jobcard-meta text-end">
+                <div><strong>Date:</strong> {{ jobcard.date }}</div>
+                <div><strong>Time:</strong> {{ jobcard.time }}</div>
+                <div><strong>Status:</strong> {{ jobcard.get_job_status_display }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="details-container mb-4">
+        <div class="details-section">
+            <h6>Customer Details</h6>
+            <table class="details-table">
+                <tr>
+                    <td class="label">Name:</td>
+                    <td>{{ jobcard.customer.name }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Phone:</td>
+                    <td>{{ jobcard.customer.phone }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Email:</td>
+                    <td>{{ jobcard.customer.email }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Company:</td>
+                    <td>{{ jobcard.customer.company|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <td class="label">TRN:</td>
+                    <td>{{ jobcard.customer.trn|default:"-" }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="details-section">
+            <h6>Vehicle Details</h6>
+            <table class="details-table">
+                <tr>
+                    <td class="label">Make:</td>
+                    <td>{{ jobcard.vehicle.make }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Model:</td>
+                    <td>{{ jobcard.vehicle.model }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Color:</td>
+                    <td>{{ jobcard.vehicle.color }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Plate:</td>
+                    <td>{{ jobcard.vehicle.plate }}</td>
+                </tr>
+                <tr>
+                    <td class="label">VIN:</td>
+                    <td>{{ jobcard.vehicle.vin|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Mileage:</td>
+                    <td>{{ jobcard.vehicle.mileage|default:"-" }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 border-top pt-3">
+            <h6>Job Description</h6>
+            {% if jobcard.required_jobs %}
+            <div class="mb-3">
+                <strong>Required Jobs:</strong>
+                <ol class="ps-3">
+                    {% for line in jobcard.required_jobs.splitlines %}
+                    {% if line.strip %}<li>{{ line }}</li>{% endif %}
+                    {% endfor %}
+                </ol>
+            </div>
+            {% endif %}
+
+            {% if jobcard.customer_comments %}
+            <div class="mb-3">
+                <strong>Customer Comments:</strong>
+                <ol class="ps-3">
+                    {% for line in jobcard.customer_comments.splitlines %}
+                    {% if line.strip %}<li>{{ line }}</li>{% endif %}
+                    {% endfor %}
+                </ol>
+            </div>
+            {% endif %}
+
+            {% if jobcard.workshop_comments %}
+            <div class="mb-3">
+                <strong>Workshop Comments:</strong>
+                <ol class="ps-3">
+                    {% for line in jobcard.workshop_comments.splitlines %}
+                    {% if line.strip %}<li>{{ line }}</li>{% endif %}
+                    {% endfor %}
+                </ol>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Print Footer -->
+<div class="print-footer">
+    <div class="container">
+        <p>Ultra Premium Auto Care Service | AlQuoz 3 - Dubai - UAE |
+            Tel: +971 4 881 8838 | Email: info@ultrapremium.vip | www.ultrapremium.vip</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-print and close after printing
+    window.onload = function () {
+        window.print();
+
+        // Close the window after printing is done or cancelled
+        window.onafterprint = function () {
+            window.close();
+        };
+
+        // Fallback in case onafterprint doesn't work
+        setTimeout(function () {
+            window.close();
+        }, 1000);
+    };
+
+    // Handle case where print dialog is blocked
+    window.onbeforeunload = function () {
+        if (window.opener) {
+            window.opener.focus();
+        }
+    };
+</script>
+{% endblock %}

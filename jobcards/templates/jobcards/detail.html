@@ -1,23 +1,51 @@
+<!-- jobcards/detail.html -->
+
 {% extends 'core/base.html' %}
 {% block title %}{{ jobcard.vehicle.plate }}{% endblock %}
 {% load static %}
 {% load widget_tweaks %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/print.css' %}" media="print">
+{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-3 no-print">
         <h2>Job Card #{{ jobcard.id }}</h2>
-        {% if quotation_exists %}
-        <button class="btn btn-secondary mb-3" disabled>
-            <i class="fas fa-file-invoice-dollar me-1"></i> Quotation Created
-        </button>
-        <span class="text-muted small d-block mb-3">This jobcard already has a quotation.</span>
-        {% else %}
-        <a href="{% url 'quotation_create' jobcard.id %}" class="btn btn-outline-primary mb-3">
-            <i class="fas fa-file-invoice-dollar me-1"></i> Convert to Quotation
-        </a>
-        {% endif %}
-        <a href="{% url 'jobcard_edit' jobcard.id %}" class="btn btn-warning">Edit</a>
+        <div class="d-flex align-items-center gap-2">
+            <a href="{% url 'jobcard_print' jobcard.id %}" 
+               class="btn btn-outline-primary" 
+               onclick="window.open(this.href, 'printWindow', 'width=1000,height=800,menubar=no,toolbar=no,location=no,status=no'); return false;">
+                <i class="fas fa-print me-1"></i> Print
+            </a>
+            {% if quotation_exists %}
+            <div class="d-flex flex-column align-items-center">
+                <button class="btn btn-secondary" disabled>
+                    <i class="fas fa-file-invoice-dollar me-1"></i> Quotation Created
+                </button>
+                <span class="text-muted small">This jobcard already has a quotation.</span>
+            </div>
+            {% else %}
+            <a href="{% url 'quotation_create' jobcard.id %}" class="btn btn-outline-primary">
+                <i class="fas fa-file-invoice-dollar me-1"></i> Convert to Quotation
+            </a>
+            {% endif %}
+
+            <a href="{% url 'jobcard_edit' jobcard.id %}" class="btn btn-warning">
+                <i class="fas fa-edit me-1"></i> Edit
+            </a>
+
+            {% if jobcard.inspection_report %}
+            <a href="{% url 'inspections:inspection_detail' jobcard.inspection_report.id %}" class="btn btn-success">
+                <i class="fas fa-clipboard-check me-1"></i> View Inspection
+            </a>
+            {% else %}
+            <a href="{% url 'inspections:create_inspection_report' jobcard.id %}" class="btn btn-primary">
+                <i class="fas fa-clipboard-list me-1"></i> Start Inspection
+            </a>
+            {% endif %}
+        </div>
     </div>
 
     <div class="row">
@@ -26,6 +54,8 @@
             <ul class="list-group">
                 <li class="list-group-item"><strong>Name:</strong> {{ jobcard.customer.name }}</li>
                 <li class="list-group-item"><strong>Phone:</strong> {{ jobcard.customer.phone }}</li>
+                <li class="list-group-item"><strong>email:</strong> {{ jobcard.customer.email }}</li>
+                <li class="list-group-item"><strong>Company:</strong> {{ jobcard.customer.company }}</li>
                 <li class="list-group-item"><strong>TRN:</strong> {{ jobcard.customer.trn }}</li>
             </ul>
         </div>
@@ -55,10 +85,59 @@
 
         <div class="col-md-6">
             <h5>Comments</h5>
-            <ul class="list-group">
-                <li class="list-group-item"><strong>Customer Comments:</strong> {{ jobcard.customer_comments }}</li>
-                <li class="list-group-item"><strong>Workshop Comments:</strong> {{ jobcard.workshop_comments }}</li>
-            </ul>
+
+            <div class="mb-3">
+                <strong>Required Jobs:</strong>
+                {% if jobcard.required_jobs %}
+                <ol class="ps-3">
+                    {% for line in jobcard.required_jobs.splitlines %}
+                    {% if line.strip %}<li>{{ line }}</li>{% endif %}
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <p class="text-muted">None</p>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <strong>Customer Comments:</strong>
+                {% if jobcard.customer_comments %}
+                <ol class="ps-3">
+                    {% for line in jobcard.customer_comments.splitlines %}
+                    {% if line.strip %}<li>{{ line }}</li>{% endif %}
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <p class="text-muted">None</p>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <strong>Workshop Comments:</strong>
+                {% if jobcard.workshop_comments %}
+                <ol class="ps-3">
+                    {% for line in jobcard.workshop_comments.splitlines %}
+                    {% if line.strip %}<li>{{ line }}</li>{% endif %}
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <p class="text-muted">None</p>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <strong>Job Notes:</strong>
+                {% with job_notes=jobcard.job_notes.all %}
+                    {% if job_notes %}
+                    <ol class="ps-3">
+                        {% for note in job_notes %}
+                        <li>{{ note.note }}</li>
+                        {% endfor %}
+                    </ol>
+                    {% else %}
+                    <p class="text-muted">None</p>
+                    {% endif %}
+                {% endwith %}
+            </div>
         </div>
     </div>
 </div>
